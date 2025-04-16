@@ -27,7 +27,14 @@ def info (request, id):
     try:
         item = get_object_or_404(Item, pk=id)
         if not item:
-            return redirect ("item")
+            return redirect ("items")
     except Exception as e:
         print (f"{e}")
     return render (request, "items/info.html", {"item": item})
+
+def list (request):
+    items = []
+    objs = Item.objects.all ().order_by ('-id')
+    if objs:
+        items = objs
+    return render (request, "items/list.html", {"items": items})

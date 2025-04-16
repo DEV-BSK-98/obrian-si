@@ -15,6 +15,13 @@ def index (request):
             print(f"Error saving data: {str(e)}")
     return render (request, "branch/index.html")
 
+def list (request):
+    branches = []
+    objs = Branch.objects.all ().order_by ('-id')
+    if objs:
+        branches = objs
+    return render (request, 'branch/list.html', {"branches": branches})
+
 def info (request, id):
     branch = Branch.objects.filter (id=id).first ()
     if not branch:

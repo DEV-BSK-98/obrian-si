@@ -3,8 +3,11 @@ from .models import Imports
 
 # Create your views here.
 def index (request):
-    items = []
-    return render (request, "imports/index.html", {"items": items})
+    imports = []
+    imps = Imports.objects.all ().order_by ('-id')
+    if imps:
+        imports = imps
+    return render (request, "imports/index.html", {"imports": imports})
 
 def info (request, id):
     item = None
@@ -15,3 +18,6 @@ def info (request, id):
     except Exception as e:
         print (f"{e}")
     return render (request, "imports/info.html", {"item": item})
+
+def pull (request):
+    return redirect ("import-purchases")

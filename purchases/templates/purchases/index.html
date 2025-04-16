@@ -11,7 +11,7 @@
                         <span class="font-bold text-2xl uppercase">Purchases</span>
                     </div>
                     <div class="flex w-max gap-3 h-full items-center">
-                        <button class="cursor-pointer rounded-lg bg-emerald-700 py-2 px-4 opacity-75 hover:opacity-100 transition-all duration-300 ease-in-out">Save Purchase</button>
+                        <button class="cursor-pointer rounded-lg bg-emerald-700 py-2 px-4 opacity-75 hover:opacity-100 whitespace-nowrap transition-all duration-300 ease-in-out">Save Purchase</button>
                     </div>
                 </div>
             </div>
@@ -34,103 +34,130 @@
                 </div>
 
                 <div class="input-field h-[80px] space-y-1 col-span-1">
-                    <p class="pb-1"><label for="spplrBhfId" class="text-[12px] font-semibold py-2">Branch ID</label></p>
-                    <div class="h-[50%] w-full">
-                        <input type="text" name="spplrBhfId" id="spplrBhfId" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
-                    </div>
-                    <p class="text-[10px]">Enter branch ID</p>
-                </div>
-
-                <div class="input-field h-[80px] space-y-1 col-span-1">
                     <p class="pb-1"><label for="spplrInvcNo" class="text-[12px] font-semibold py-2">Invoice No.</label></p>
                     <div class="h-[50%] w-full">
                         <input type="number" name="spplrInvcNo" id="spplrInvcNo" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
                     </div>
                     <p class="text-[10px]">Invoice number</p>
                 </div>
-
-                <div class="input-field h-[80px] space-y-1 col-span-1">
-                    <p class="pb-1"><label for="rcptTyCd" class="text-[12px] font-semibold py-2">Receipt Type</label></p>
-                    <div class="h-[50%] w-full">
-                        <input type="text" name="rcptTyCd" id="rcptTyCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                <div class="col-span-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <h2 class="text-sm font-semibold">Items</h2>
+                        <button id="addRow" type="button" class="text-sm px-3 flex justify-center items-center py-1 bg-sky-600 text-white rounded hover:bg-sky-700">
+                            <span class="material-symbols-outlined">
+                                add
+                            </span>
+                        </button>
                     </div>
-                    <p class="text-[10px]">Receipt type code</p>
-                </div>
-
-                <div class="input-field h-[80px] space-y-1 col-span-1">
-                    <p class="pb-1"><label for="pmtTyCd" class="text-[12px] font-semibold py-2">Payment Type</label></p>
-                    <div class="h-[50%] w-full">
-                        <input type="text" name="pmtTyCd" id="pmtTyCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
-                    </div>
-                    <p class="text-[10px]">Payment type code</p>
-                </div>
-
-                <div class="input-field h-[80px] space-y-1 col-span-1">
-                    <p class="pb-1"><label for="cfmDt" class="text-[12px] font-semibold py-2">Confirmation Date</label></p>
-                    <div class="h-[50%] w-full">
-                        <input type="datetime-local" name="cfmDt" id="cfmDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
-                    </div>
-                    <p class="text-[10px]">Confirmation date</p>
-                </div>
-
-                <div class="input-field h-[80px] space-y-1 col-span-1">
-                    <p class="pb-1"><label for="salesDt" class="text-[12px] font-semibold py-2">Sales Date (YYYYMMDD)</label></p>
-                    <div class="h-[50%] w-full">
-                        <input type="text" name="salesDt" id="salesDt" maxlength="8" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
-                    </div>
-                    <p class="text-[10px]">Format: YYYYMMDD</p>
-                </div>
-
-                <div class="input-field h-[80px] space-y-1 col-span-1">
-                    <p class="pb-1"><label for="stockRlsDt" class="text-[12px] font-semibold py-2">Stock Release Date</label></p>
-                    <div class="h-[50%] w-full">
-                        <input type="datetime-local" name="stockRlsDt" id="stockRlsDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
-                    </div>
-                    <p class="text-[10px]">Optional</p>
-                </div>
-
-                <div class="input-field h-[80px] space-y-1 col-span-1">
-                    <p class="pb-1"><label for="totItemCnt" class="text-[12px] font-semibold py-2">Total Items</label></p>
-                    <div class="h-[50%] w-full">
-                        <input type="number" name="totItemCnt" id="totItemCnt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
-                    </div>
-                    <p class="text-[10px]">Number of items</p>
-                </div>
-
-                <div class="input-field h-[80px] space-y-1 col-span-1">
-                    <p class="pb-1"><label for="totTaxblAmt" class="text-[12px] font-semibold py-2">Taxable Amount</label></p>
-                    <div class="h-[50%] w-full">
-                        <input type="number" step="0.0001" name="totTaxblAmt" id="totTaxblAmt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
-                    </div>
-                    <p class="text-[10px]">Total taxable amount</p>
-                </div>
-
-                <div class="input-field h-[80px] space-y-1 col-span-1">
-                    <p class="pb-1"><label for="totTaxAmt" class="text-[12px] font-semibold py-2">Tax Amount</label></p>
-                    <div class="h-[50%] w-full">
-                        <input type="number" step="0.0001" name="totTaxAmt" id="totTaxAmt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
-                    </div>
-                    <p class="text-[10px]">Total tax amount</p>
-                </div>
-
-                <div class="input-field h-[80px] space-y-1 col-span-1">
-                    <p class="pb-1"><label for="totAmt" class="text-[12px] font-semibold py-2">Total Amount</label></p>
-                    <div class="h-[50%] w-full">
-                        <input type="number" step="0.01" name="totAmt" id="totAmt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
-                    </div>
-                    <p class="text-[10px]">Final total amount</p>
-                </div>
-
-                <div class="input-field h-[80px] space-y-1 col-span-3">
-                    <p class="pb-1"><label for="remark" class="text-[12px] font-semibold py-2">Remark</label></p>
-                    <div class="h-[50%] w-full">
-                        <textarea name="remark" id="remark" rows="2" class="w-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px]"></textarea>
-                    </div>
-                    <p class="text-[10px]">Optional remarks</p>
-                </div>
+                    <table class="w-full text-sm rounded-md">
+                        <thead class="rounded-md">
+                            <tr class="bg-emerald-500">
+                                <th class="p-2 rounded-l-md">Item Name</th>
+                                <th class="p-2">Qty</th>
+                                <th class="p-2">Price</th>
+                                <th class="p-2">% Tax Rate</th>
+                                <th class="p-2">Exclusive Amount</th>
+                                <th class="p-2">Inclusive Amount</th>
+                                <th class="p-2 text-center rounded-r-md">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="itemTable">
+                            <tr >
+                                <td class="h-[40px] p-1 rounded-l-md">
+                                    <input type="text" name="itemName[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Item Name" />
+                                </td>
+                                <td class="h-[40px] p-1">
+                                    <input type="number" name="qty[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Qty" />
+                                </td>
+                                <td class="h-[40px] p-1">
+                                    <input type="number" name="price[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Price" />
+                                </td>
+                                <td class="h-[40px] p-1">
+                                    <input type="number" name="rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" />
+                                </td>
+                                <td class="h-[40px] p-1">
+                                    <input type="number" name="amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
+                                </td>
+                                <td class="h-[40px] p-1">
+                                    <input type="number" name="inclusive_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
+                                </td>
+                                <td class="h-[40px] p-1 text-center">
+                                    <button type="button" class="removeRow text-red-600 hover:underline text-xs">Remove</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </form>
+    <script>
+        const addRowBtn = document.getElementById('addRow');
+        const tableBody = document.getElementById('itemTable');
 
+        function calculateAmount(row) {
+            const qtyInput = row.querySelector('input[name="qty[]"]');
+            const priceInput = row.querySelector('input[name="price[]"]');
+            const rateInput = row.querySelector('input[name="rate[]"]');
+            const amountInput = row.querySelector('input[name="amount[]"]');
+            const inclusiveAmountInput = row.querySelector('input[name="inclusive_amount[]"]');
+
+            const qty = parseFloat(qtyInput.value) || 0;
+            const price = parseFloat(priceInput.value) || 0;
+            const rate = parseFloat(rateInput.value) || 0;
+
+            const baseAmount = qty * price;
+            const finalAmount = baseAmount + (baseAmount * rate / 100);
+
+            amountInput.value = baseAmount.toFixed(2);
+            inclusiveAmountInput.value = finalAmount.toFixed(2);
+        }
+
+        function addInputListeners(row) {
+            const inputs = row.querySelectorAll('input[name="qty[]"], input[name="price[]"], input[name="rate[]"]');
+            inputs.forEach(input => {
+                input.addEventListener('input', () => calculateAmount(row));
+            });
+        }
+
+        document.querySelectorAll('#itemTable tr').forEach(addInputListeners);
+
+        addRowBtn.addEventListener('click', () => {
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td class="h-[40px] p-1 rounded-l-md">
+                    <input type="text" name="itemName[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Item Name" />
+                </td>
+                <td class="h-[40px] p-1">
+                    <input type="number" name="qty[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Qty" />
+                </td>
+                <td class="h-[40px] p-1">
+                    <input type="number" name="price[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Price" />
+                </td>
+                <td class="h-[40px] p-1">
+                    <input type="number" name="rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" />
+                </td>
+                <td class="h-[40px] p-1">
+                    <input type="number" name="amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
+                </td>
+                <td class="h-[40px] p-1">
+                    <input type="number" name="inclusive_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
+                </td>
+                <td class="h-[40px] p-1 text-center">
+                    <button type="button" class="removeRow cursor-pointer text-red-600 hover:underline text-xs">
+                        <button type="button" class="removeRow text-red-600 hover:underline text-xs">Remove</button>
+                    </button>
+                </td>
+            `;
+            tableBody.appendChild(newRow);
+            addInputListeners(newRow);
+        });
+
+        tableBody.addEventListener('click', function (e) {
+            if (e.target && e.target.classList.contains('removeRow')) {
+                const row = e.target.closest('tr');
+                if (row) row.remove();
+            }
+        });
+    </script>
 {% endblock mainArea %}

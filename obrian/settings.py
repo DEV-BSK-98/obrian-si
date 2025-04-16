@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'sales',
     'purchases',
     'sar',
+    'authentication',
 ]
 
 MIDDLEWARE = [

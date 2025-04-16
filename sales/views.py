@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Invoice, InvoiceItem
+from .models import Invoice, InvoiceItem, Credit_Note_Invoice, Credit_Note_InvoiceItem
 import json
 
 def index(request):
     if request.method == 'POST':
+
         try:
             sale = Invoice.objects.create(
                 tpin=request.POST.get('tpin', '').strip(),
@@ -95,7 +96,33 @@ def info(request, id):
     try:
         invoice = get_object_or_404(Invoice, pk=id)
         if not invoice:
-            return redirect("invoice")
+            return redirect("sales")
     except Exception as e:
         print(f"{e}")
-    return render(request, "invoices/info.html", {"invoice": invoice})
+    return render(request, "sales/info.html", {"invoice": invoice})
+
+
+def credit_note_list(request):
+    invoices = []
+    try:
+        invoices = Credit_Note_Invoice.objects.all().order_by('-id')
+    except Exception as e:
+        print(f"{e}")
+    return render(request, "sales/credit-notes.html", {"invoice": invoices})
+
+def credit_note_info(request, id):
+    invoice = []
+    try:
+        invoice = get_object_or_404(Credit_Note_Invoice, pk=id)
+    except Exception as e:
+        print(f"{e}")
+    return render(request, "sales/credit-note-info.html", {"invoice": invoice})
+
+
+def credit_note_new(request, id):
+    invoices = Invoice.objects.all ().order_by('-id')
+    try:
+        pass
+    except Exception as e:
+        print(f"{e}")
+    return render(request, "sales/credit-note-new.html", {"invoices": invoices})

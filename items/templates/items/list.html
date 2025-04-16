@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block mainArea %}
+
+    <div class="w-full h-full">
+        <div class="h-[50px] w-full border-b border-slate-600 pb-3">
+            <div class="h-full w-full flex gap-3 justify-between items-center">
+                <div class="title h-full w-full flex items-center">
+                    <span class="font-bold text-2xl uppercase">Items</span>
+                </div>
+                <div class="flex w-max gap-3 h-full items-center">
+                    <a href="{% url 'new-item' %}" class="cursor-pointer rounded-lg bg-emerald-700 py-2 px-4 opacity-75 hover:opacity-100 whitespace-nowrap transition-all duration-300 ease-in-out">New Item</a>
+                </div>
+            </div>
+        </div>
+        <div class="min-h-[90px] mt-5 w-full">
+            <div class="overflow-x-auto">
+                <table class="w-full text-lef rounded-md text-sm">
+                    <thead class="bg-emerald-400 text-slate-700 text-[13px] font-semibold">
+                        <tr>
+                            <th class="p-3 rounded-l-md">#</th>
+                            <th class="p-3 ">Item Name</th>
+                            <th class="p-3 ">Item Code</th>
+                            <th class="p-3 ">Item Packaging Unit</th>
+                            <th class="p-3 ">Item Type Code</th>
+                            <th class="p-3 ">Item Quantity Unit</th>
+                            <th class="p-3 ">Item Class Code</th>
+                            <th class="p-3  text-center rounded-r-md">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-[13px]">
+                        {% for item in items %}
+                            <tr class="border-b border-slate-200 hover:bg-slate-50/30">
+                                <td class="p-3 rounded-l-md text-center">{{ forloop.counter }}</td>
+                                <td class="p-3 text-center">{{ item.itemNm }}</td>
+                                <td class="p-3 text-center">{{ item.itemCd }}</td>
+                                <td class="p-3 text-center">{{ item.pkgUnitCd }}</td>
+                                <td class="p-3 text-center">{{ item.itemTyCd }}</td>
+                                <td class="p-3 text-center">{{ item.qtyUnitCd }}</td>
+                                <td class="p-3 text-center">{{ item.itemClsCd }}</td>
+                                <td class="p-3 text-center rounded-r-md">
+                                    <a href="{% url 'item-info' item.id %}" class="text-emerald-500 hover:underline">View</a>                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center text-slate-500 text-[17px] p-4">No Item found.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  
+{% endblock mainArea %}
