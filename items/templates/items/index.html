@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block mainArea %}
+
+    <form method="post" class="form h-full w-full rounded-lg" id="form">
+        {% csrf_token %}
+        <div class="h-full w-full">
+            <div class="h-[50px] w-full border-b border-slate-600 pb-3">
+                <div class="h-full w-full flex ap-3 justify-between items-center">
+                    <div class="title h-full w-full flex items-center">
+                        <span class="font-bold text-2xl uppercase">Items</span>
+                    </div>
+                    <div class="flex w-max gap-3 h-full items-center">
+                        <button class="cursor-pointer rounded-lg bg-emerald-700 py-2 px-4 opacity-75 hover:opacity-100 transition-all duration-300 ease-in-out">Save Item</button>
+                    </div>
+                </div>
+            </div>
+            <div class="min-h-[90px] mt-5 w-full">
+                <div class="h-full w-full grid grid-cols-4 gap-3 gap-y-5">
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1">
+                            <label for="itemNm" class="text-[12px] font-semibold py-2">Item Name</label>
+                        </p>
+                        <div class="h-[50%] w-full">
+                            <input
+                                type="text"
+                                placeholder="Item Name"
+                                name="itemNm"
+                                id="itemNm"
+                                class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"
+                            />
+                        </div>
+                        <p class="text-[10px]">
+                            Item Name
+                        </p>
+                    </div>
+
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1">
+                            <label for="itemCd" class="text-[12px] font-semibold py-2">Item Code</label>
+                        </p>
+                        <div class="h-[50%] w-full">
+                            <input
+                                type="text"
+                                placeholder="Item Code"
+                                name="itemCd"
+                                id="itemCd"
+                                class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"
+                            />
+                        </div>
+                        <p class="text-[10px]">
+                            Item Code
+                        </p>
+                    </div>
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1">
+                            <label for="itemClsCd" class="text-[12px] font-semibold py-2">Item Class Code</label>
+                        </p>
+                        <div class="h-[50%] w-full">
+                            <input
+                                type="text"
+                                placeholder="Item Class Code"
+                                name="itemClsCd"
+                                id="itemClsCd"
+                                class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"
+                            />
+                        </div>
+                        <p class="text-[10px]">
+                            Item Class Code
+                        </p>
+                    </div>
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1">
+                            <label for="itemTyCd" class="text-[12px] font-semibold py-2">Item Type Code</label>
+                        </p>
+                        <div class="h-[50%] w-full">
+                            <input
+                                type="text"
+                                placeholder="Item Type Code"
+                                name="itemTyCd"
+                                id="itemTyCd"
+                                class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"
+                            />
+                        </div>
+                        <p class="text-[10px]">
+                            Item Type Code
+                        </p>
+                    </div>
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1">
+                            <label for="orgnNatCd" class="text-[12px] font-semibold py-2">Country Of Origin</label>
+                        </p>
+                        <div class="h-[50%] w-full">
+                            <input
+                                type="text"
+                                placeholder="Country Of Origin"
+                                name="orgnNatCd"
+                                id="orgnNatCd"
+                                class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"
+                            />
+                        </div>
+                        <p class="text-[10px]">
+                            Country Of Origin
+                        </p>
+                    </div>
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1">
+                            <label for="pkgUnitCd" class="text-[12px] font-semibold py-2">Packing Unit</label>
+                        </p>
+                        <div class="h-[50%] w-full">
+                            <input
+                                type="text"
+                                placeholder="Packing Unit"
+                                name="pkgUnitCd"
+                                id="pkgUnitCd"
+                                class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"
+                            />
+                        </div>
+                        <p class="text-[10px]">
+                            Packing Unit
+                        </p>
+                    </div>
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1">
+                            <label for="qtyUnitCd" class="text-[12px] font-semibold py-2">QTY Unit</label>
+                        </p>
+                        <div class="h-[50%] w-full">
+                            <input
+                                type="text"
+                                placeholder="QTY Unit"
+                                name="qtyUnitCd"
+                                id="qtyUnitCd"
+                                class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"
+                            />
+                        </div>
+                        <p class="text-[10px]">
+                            QTY Unit
+                        </p>
+                    </div>
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1">
+                            <label for="vatCatCd" class="text-[12px] font-semibold py-2">Tax Type Unit</label>
+                        </p>
+                        <div class="h-[50%] w-full">
+                            <input
+                                type="text"
+                                placeholder="Tax Type"
+                                name="vatCatCd"
+                                id="vatCatCd"
+                                class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"
+                            />
+                        </div>
+                        <p class="text-[10px]">
+                            Tax Type
+                        </p>
+                    </div>
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1">
+                            <label for="iplCatCd" class="text-[12px] font-semibold py-2">IPL category code</label>
+                        </p>
+                        <div class="h-[50%] w-full">
+                            <input
+                                type="text"
+                                placeholder="IPL category code"
+                                name="iplCatCd"
+                                id="iplCatCd"
+                                class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"
+                            />
+                        </div>
+                        <p class="text-[10px]">
+                            IPL category code
+                        </p>
+                    </div>
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1">
+                            <label for="tlCatCd" class="text-[12px] font-semibold py-2">TL category code</label>
+                        </p>
+                        <div class="h-[50%] w-full">
+                            <input
+                                type="text"
+                                placeholder="TL category code"
+                                name="tlCatCd"
+                                id="tlCatCd"
+                                class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"
+                            />
+                        </div>
+                        <p class="text-[10px]">
+                            TL category code
+                        </p>
+                    </div>
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1">
+                            <label for="exciseTxCatCd" class="text-[12px] font-semibold py-2">Excise tax category code </label>
+                        </p>
+                        <div class="h-[50%] w-full">
+                            <input
+                                type="text"
+                                placeholder="Excise tax category code "
+                                name="exciseTxCatCd"
+                                id="exciseTxCatCd"
+                                class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"
+                            />
+                        </div>
+                        <p class="text-[10px]">
+                            Excise tax category code
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+{% endblock mainArea %}

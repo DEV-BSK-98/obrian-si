@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% block mainArea %}
+
+    <form method="put" class="form h-full w-full rounded-lg" id="form">
+        {% csrf_token %}
+        <div class="h-full w-full">
+            <div class="h-[50px] w-full border-b border-slate-600 pb-3">
+                <div class="h-full w-full flex ap-3 justify-between items-center">
+                    <div class="title h-full w-full flex items-center">
+                        <span class="font-bold text-2xl uppercase">Imports</span>
+                    </div>
+                    <div class="flex w-max gap-3 h-full items-center">
+                        <button class="cursor-pointer rounded-lg bg-emerald-700 py-2 px-4 opacity-75 hover:opacity-100 transition-all duration-300 ease-in-out">Update Imports</button>
+                    </div>
+                </div>
+            </div>
+            <div class="min-h-[90px] mt-5 w-full">
+                <div class="h-full w-full grid grid-cols-4 gap-3 gap-y-5">
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="taskCd" class="text-[12px] font-semibold py-2">Task Code</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" placeholder="Task Code" name="taskCd" id="taskCd"
+                            class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                    </div>
+                    <p class="text-[10px]">Task Code</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="dclDe" class="text-[12px] font-semibold py-2">Declaration Date</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" placeholder="Declaration Date" name="dclDe" id="dclDe"
+                            class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                    </div>
+                    <p class="text-[10px]">Declaration Date</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="itemSeq" class="text-[12px] font-semibold py-2">Item Sequence</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="number" placeholder="Item Sequence" name="itemSeq" id="itemSeq"
+                            class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                    </div>
+                    <p class="text-[10px]">Item Sequence</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="dclNo" class="text-[12px] font-semibold py-2">Declaration No.</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" placeholder="Declaration No." name="dclNo" id="dclNo"
+                            class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                    </div>
+                    <p class="text-[10px]">Declaration Number</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="hsCd" class="text-[12px] font-semibold py-2">HS Code</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" placeholder="HS Code" name="hsCd" id="hsCd"
+                            class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                    </div>
+                    <p class="text-[10px]">Harmonized System Code</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="itemNm" class="text-[12px] font-semibold py-2">Item Name</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" placeholder="Item Name" name="itemNm" id="itemNm"
+                            class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                    </div>
+                    <p class="text-[10px]">Item Name</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="imptItemsttsCd" class="text-[12px] font-semibold py-2">Import Status Code</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" placeholder="Import Status Code" name="imptItemsttsCd" id="imptItemsttsCd"
+                            class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                    </div>
+                    <p class="text-[10px]">Import Item Status Code</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="orgnNatCd" class="text-[12px] font-semibold py-2">Origin Country Code</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" placeholder="Origin Country Code" name="orgnNatCd" id="orgnNatCd"
+                            class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                    </div>
+                    <p class="text-[10px]">Country of Origin</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="exptNatCd" class="text-[12px] font-semibold py-2">Export Country Code</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" placeholder="Export Country Code" name="exptNatCd" id="exptNatCd"
+                            class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                    </div>
+                    <p class="text-[10px]">Country of Export</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="pkg" class="text-[12px] font-semibold py-2">Package Quantity</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="number" placeholder="Package Quantity" name="pkg" id="pkg"
+                            class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                    </div>
+                    <p class="text-[10px]">Package Quantity</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="pkgUnitCd" class="text-[12px] font-semibold py-2">Package Unit Code</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" placeholder="Package Unit Code" name="pkgUnitCd" id="pkgUnitCd"
+                            class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                    </div>
+                    <p class="text-[10px]">Package Unit Code</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="qty" class="text-[12px] font-semibold py-2">Quantity</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="number" placeholder="Quantity" name="qty" id="qty"
+                            class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" step="0.01" />
+                    </div>
+                    <p class="text-[10px]">Quantity</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="qtyUnitCd" class="text-[12px] font-semibold py-2">Quantity Unit Code</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" placeholder="Quantity Unit Code" name="qtyUnitCd" id="qtyUnitCd"
+                            class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                    </div>
+                    <p class="text-[10px]">Quantity Unit Code</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="totWt" class="text-[12px] font-semibold py-2">Total Weight</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="number" placeholder="Total Weight" name="totWt" id="totWt"
+                            class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" step="0.01" />
+                    </div>
+                    <p class="text-[10px]">Total Weight</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="netWt" class="text-[12px] font-semibold py-2">Net Weight</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="number" placeholder="Net Weight" name="netWt" id="netWt"
+                            class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" step="0.01" />
+                    </div>
+                    <p class="text-[10px]">Net Weight</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="spplrNm" class="text-[12px] font-semibold py-2">Supplier Name</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" placeholder="Supplier Name" name="spplrNm" id="spplrNm"
+                            class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                    </div>
+                    <p class="text-[10px]">Supplier Name</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="agntNm" class="text-[12px] font-semibold py-2">Agent Name</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" placeholder="Agent Name" name="agntNm" id="agntNm"
+                            class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                    </div>
+                    <p class="text-[10px]">Agent Name</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="invcFcurAmt" class="text-[12px] font-semibold py-2">Invoice Amount (Foreign Currency)</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="number" placeholder="Invoice F/C Amount" name="invcFcurAmt" id="invcFcurAmt"
+                            class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" step="0.01" />
+                    </div>
+                    <p class="text-[10px]">Invoice Amount in Foreign Currency</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="invcFcurCd" class="text-[12px] font-semibold py-2">Invoice Currency Code</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" placeholder="Currency Code" name="invcFcurCd" id="invcFcurCd"
+                            class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                    </div>
+                    <p class="text-[10px]">Invoice Currency</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="invcFcurExcrt" class="text-[12px] font-semibold py-2">Exchange Rate</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="number" placeholder="Exchange Rate" name="invcFcurExcrt" id="invcFcurExcrt"
+                            class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" step="0.01" />
+                    </div>
+                    <p class="text-[10px]">Exchange Rate</p>
+                </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+{% endblock mainArea %}

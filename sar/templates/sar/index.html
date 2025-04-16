@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block mainArea %}
+
+    <form method="post" class="form h-full w-full rounded-lg" id="form">
+        {% csrf_token %}
+        <div class="h-full w-full">
+            <div class="h-[50px] w-full border-b border-slate-600 pb-3">
+                <div class="h-full w-full flex gap-3 justify-between items-center">
+                    <div class="title h-full w-full flex items-center">
+                        <span class="font-bold text-2xl uppercase">Stock Transactions</span>
+                    </div>
+                    <div class="flex w-max gap-3 h-full items-center">
+                        <button class="cursor-pointer rounded-lg bg-emerald-700 py-2 px-4 opacity-75 hover:opacity-100 transition-all duration-300 ease-in-out">New Stock Transactions</button>
+                    </div>
+                </div>
+            </div>
+            <div class="min-h-[90px] mt-5 w-full">
+                <div class="h-full w-full grid grid-cols-4 gap-3 gap-y-5">
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="tpin" class="text-[12px] font-semibold py-2">TPIN</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" name="tpin" id="tpin" maxlength="15" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"/>
+                    </div>
+                    <p class="text-[10px]">Taxpayer Identification Number</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="bhfId" class="text-[12px] font-semibold py-2">Branch ID</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" name="bhfId" id="bhfId" maxlength="10" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"/>
+                    </div>
+                    <p class="text-[10px]">Branch identifier</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="sarNo" class="text-[12px] font-semibold py-2">SAR No.</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="number" name="sarNo" id="sarNo" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"/>
+                    </div>
+                    <p class="text-[10px]">SAR Number</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="orgSarNo" class="text-[12px] font-semibold py-2">Original SAR No.</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="number" name="orgSarNo" id="orgSarNo" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"/>
+                    </div>
+                    <p class="text-[10px]">Original SAR number</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="regTyCd" class="text-[12px] font-semibold py-2">Registration Type</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" name="regTyCd" id="regTyCd" maxlength="10" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"/>
+                    </div>
+                    <p class="text-[10px]">Registration type code</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="custTpin" class="text-[12px] font-semibold py-2">Customer TPIN</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" name="custTpin" id="custTpin" maxlength="15" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"/>
+                    </div>
+                    <p class="text-[10px]">Optional</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="custNm" class="text-[12px] font-semibold py-2">Customer Name</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" name="custNm" id="custNm" maxlength="255" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"/>
+                    </div>
+                    <p class="text-[10px]">Optional</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="custBhfId" class="text-[12px] font-semibold py-2">Customer Branch ID</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" name="custBhfId" id="custBhfId" maxlength="10" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"/>
+                    </div>
+                    <p class="text-[10px]">Optional</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="sarTyCd" class="text-[12px] font-semibold py-2">SAR Type Code</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" name="sarTyCd" id="sarTyCd" maxlength="10" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"/>
+                    </div>
+                    <p class="text-[10px]">SAR Type</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="ocrnDt" class="text-[12px] font-semibold py-2">Occurrence Date (YYYYMMDD)</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" name="ocrnDt" id="ocrnDt" maxlength="8" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"/>
+                    </div>
+                    <p class="text-[10px]">Format: YYYYMMDD</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="totItemCnt" class="text-[12px] font-semibold py-2">Total Item Count</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="number" name="totItemCnt" id="totItemCnt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"/>
+                    </div>
+                    <p class="text-[10px]">Total items involved</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="totTaxblAmt" class="text-[12px] font-semibold py-2">Taxable Amount</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="number" step="0.0001" name="totTaxblAmt" id="totTaxblAmt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"/>
+                    </div>
+                    <p class="text-[10px]">Taxable amount</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="totTaxAmt" class="text-[12px] font-semibold py-2">Tax Amount</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="number" step="0.0001" name="totTaxAmt" id="totTaxAmt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"/>
+                    </div>
+                    <p class="text-[10px]">Tax amount</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="totAmt" class="text-[12px] font-semibold py-2">Total Amount</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="number" step="0.01" name="totAmt" id="totAmt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"/>
+                    </div>
+                    <p class="text-[10px]">Final total</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-3">
+                    <p class="pb-1"><label for="remark" class="text-[12px] font-semibold py-2">Remarks</label></p>
+                    <div class="h-[50%] w-full">
+                        <textarea name="remark" id="remark" rows="2" class="w-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px]"></textarea>
+                    </div>
+                    <p class="text-[10px]">Optional remarks</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="regrId" class="text-[12px] font-semibold py-2">Registrar ID</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" name="regrId" id="regrId" maxlength="50" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"/>
+                    </div>
+                    <p class="text-[10px]">Created by</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="regrNm" class="text-[12px] font-semibold py-2">Registrar Name</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" name="regrNm" id="regrNm" maxlength="255" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"/>
+                    </div>
+                    <p class="text-[10px]">Created by (name)</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="modrNm" class="text-[12px] font-semibold py-2">Modifier Name</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" name="modrNm" id="modrNm" maxlength="255" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"/>
+                    </div>
+                    <p class="text-[10px]">Modified by</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="modrId" class="text-[12px] font-semibold py-2">Modifier ID</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" name="modrId" id="modrId" maxlength="50" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"/>
+                    </div>
+                    <p class="text-[10px]">Modified by (ID)</p>
+                </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+{% endblock mainArea %}
