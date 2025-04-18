@@ -8,11 +8,11 @@
             <div class="h-[50px] w-full border-b border-slate-600 pb-3">
                 <div class="h-full w-full flex ap-3 justify-between items-center">
                     <div class="title h-full w-full flex items-center">
-                        <span class="font-bold text-2xl uppercase">Sale</span>
+                        <span class="font-bold text-2xl uppercase">Sale - {{ sale.cisInvcNo }}</span>
                     </div>
                     <div class="flex w-max gap-3 h-full items-center">
-                        <button class="cursor-pointer rounded-lg bg-emerald-700 py-2 px-4 opacity-75 hover:opacity-100 whitespace-nowrap transition-all duration-300 ease-in-out">Update Sale</button>
-                        <button class="cursor-pointer rounded-lg bg-purple-700 py-2 px-4 opacity-75 hover:opacity-100 transition-all duration-300 ease-in-out">Credit Note</button>
+                        {% comment %} <button class="cursor-pointer rounded-lg bg-emerald-700 py-2 px-4 opacity-75 hover:opacity-100transition-all duration-300 ease-in-out">Update Sale</button> {% endcomment %}
+                        <a href="{% url 'credit-new-note' %}" class="cursor-pointer rounded-lg bg-purple-700 py-2 px-4 opacity-75 hover:opacity-100 whitespace-nowrap transition-all duration-300 ease-in-out">Credit Note</a>
                     </div>
                 </div>
             </div>
@@ -22,43 +22,43 @@
                     <div class="input-field h-[80px] space-y-1 col-span-1">
                         <p class="pb-1"><label for="tpin" class="text-[12px] font-semibold py-2">T-Pin</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="text" value="{{sale.tpin}}" name="tpin" id="tpin" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="T-Pin" />
+                            <input type="text" value="{{sale.tpin}}" name="tpin" id="tpin" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="T-Pin" readonly />
                         </div>
-                        <p class="text-[10px]">T-Pin Number</p>
+                        <p class="text-[10px]">T-Pin text</p>
                     </div>
 
                     <!-- BHF ID -->
                     <div class="input-field h-[80px] space-y-1 col-span-1">
                         <p class="pb-1"><label for="bhfId" class="text-[12px] font-semibold py-2">BHF ID</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="text" value="{{sale.bhfId}}" name="bhfId" id="bhfId" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="BHF ID" />
+                            <input type="text" value="{{sale.bhfId}}" name="bhfId" id="bhfId" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="BHF ID" readonly />
                         </div>
                         <p class="text-[10px]">BHF ID</p>
                     </div>
 
-                    <!-- Original Invoice Number -->
+                    <!-- Original Invoice text -->
                     <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="orgInvcNo" class="text-[12px] font-semibold py-2">Original Invoice Number</label></p>
+                        <p class="pb-1"><label for="orgInvcNo" class="text-[12px] font-semibold py-2">Original Invoice text</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="text" value="{{sale.orgInvcNo}}" name="orgInvcNo" id="orgInvcNo" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Original Invoice Number" />
+                            <input type="text" value="{{sale.orgInvcNo}}" name="orgInvcNo" id="orgInvcNo" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Original Invoice text" readonly />
                         </div>
-                        <p class="text-[10px]">Original Invoice Number</p>
+                        <p class="text-[10px]">Original Invoice text</p>
                     </div>
 
-                    <!-- CIS Invoice Number -->
+                    <!-- CIS Invoice text -->
                     <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="cisInvcNo" class="text-[12px] font-semibold py-2">CIS Invoice Number</label></p>
+                        <p class="pb-1"><label for="cisInvcNo" class="text-[12px] font-semibold py-2">CIS Invoice text</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="text" value="{{sale.cisInvcNo}}" name="cisInvcNo" id="cisInvcNo" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="CIS Invoice Number" />
+                            <input type="text" value="{{sale.cisInvcNo}}" name="cisInvcNo" id="cisInvcNo" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="CIS Invoice text" readonly />
                         </div>
-                        <p class="text-[10px]">CIS Invoice Number</p>
+                        <p class="text-[10px]">CIS Invoice text</p>
                     </div>
 
                     <!-- Customer T-Pin -->
                     <div class="input-field h-[80px] space-y-1 col-span-1">
                         <p class="pb-1"><label for="custTpin" class="text-[12px] font-semibold py-2">Customer T-Pin</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="text" value="{{sale.custTpin}}" name="custTpin" id="custTpin" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Customer T-Pin" />
+                            <input type="text" value="{{sale.custTpin}}" name="custTpin" id="custTpin" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Customer T-Pin" readonly />
                         </div>
                         <p class="text-[10px]">Customer T-Pin</p>
                     </div>
@@ -67,7 +67,7 @@
                     <div class="input-field h-[80px] space-y-1 col-span-1">
                         <p class="pb-1"><label for="custNm" class="text-[12px] font-semibold py-2">Customer Name</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="text" value="{{sale.custNm}}" name="custNm" id="custNm" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Customer Name" />
+                            <input type="text" value="{{sale.custNm}}" name="custNm" id="custNm" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Customer Name" readonly />
                         </div>
                         <p class="text-[10px]">Customer Name</p>
                     </div>
@@ -76,7 +76,7 @@
                     <div class="input-field h-[80px] space-y-1 col-span-1">
                         <p class="pb-1"><label for="salesTyCd" class="text-[12px] font-semibold py-2">Sales Type Code</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="text"  value="{{sale.salesTyCd}}" name="salesTyCd" id="salesTyCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Sales Type Code" />
+                            <input type="text"  value="{{sale.salesTyCd}}" name="salesTyCd" id="salesTyCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Sales Type Code" readonly />
                         </div>
                         <p class="text-[10px]">Sales Type Code</p>
                     </div>
@@ -85,7 +85,7 @@
                     <div class="input-field h-[80px] space-y-1 col-span-1">
                         <p class="pb-1"><label for="rcptTyCd" class="text-[12px] font-semibold py-2">Receipt Type Code</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="text" name="rcptTyCd" value="{{sale.rcptTyCd}}" id="rcptTyCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Receipt Type Code" />
+                            <input type="text" name="rcptTyCd" value="{{sale.rcptTyCd}}" id="rcptTyCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Receipt Type Code" readonly />
                         </div>
                         <p class="text-[10px]">Receipt Type Code</p>
                     </div>
@@ -94,7 +94,7 @@
                     <div class="input-field h-[80px] space-y-1 col-span-1">
                         <p class="pb-1"><label for="pmtTyCd" class="text-[12px] font-semibold py-2">Payment Type Code</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="text" value="{{sale.pmtTyCd}}" name="pmtTyCd" id="pmtTyCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Payment Type Code" />
+                            <input type="text" value="{{sale.pmtTyCd}}" name="pmtTyCd" id="pmtTyCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Payment Type Code" readonly />
                         </div>
                         <p class="text-[10px]">Payment Type Code</p>
                     </div>
@@ -103,7 +103,7 @@
                     <div class="input-field h-[80px] space-y-1 col-span-1">
                         <p class="pb-1"><label for="salesSttsCd" class="text-[12px] font-semibold py-2">Sales Status Code</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="text" value="{{sale.salesSttsCd}}" name="salesSttsCd" id="salesSttsCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Sales Status Code" />
+                            <input type="text" value="{{sale.salesSttsCd}}" name="salesSttsCd" id="salesSttsCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Sales Status Code" readonly />
                         </div>
                         <p class="text-[10px]">Sales Status Code</p>
                     </div>
@@ -112,7 +112,7 @@
                     <div class="input-field h-[80px] space-y-1 col-span-1">
                         <p class="pb-1"><label for="cfmDt" class="text-[12px] font-semibold py-2">Confirmation Date</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="datetime-local" value="{{sale.cfmDt}}" name="cfmDt" id="cfmDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                            <input type="test" value="{{sale.cfmDt}}" name="cfmDt" id="cfmDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" readonly />
                         </div>
                         <p class="text-[10px]">Confirmation Date</p>
                     </div>
@@ -121,7 +121,7 @@
                     <div class="input-field h-[80px] space-y-1 col-span-1">
                         <p class="pb-1"><label for="salesDt" class="text-[12px] font-semibold py-2">Sales Date</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="date" name="salesDt" value="{{sale.salesDt}}" id="salesDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                            <input type="text" name="salesDt" value="{{sale.salesDt}}" id="salesDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" readonly />
                         </div>
                         <p class="text-[10px]">Sales Date</p>
                     </div>
@@ -130,7 +130,7 @@
                     <div class="input-field h-[80px] space-y-1 col-span-1">
                         <p class="pb-1"><label for="stockRlsDt" class="text-[12px] font-semibold py-2">Stock Release Date</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="date" name="stockRlsDt" value="{{sale.stockRlsDt}}"  id="stockRlsDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                            <input type="text" name="stockRlsDt" value="{{sale.stockRlsDt}}"  id="stockRlsDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" readonly />
                         </div>
                         <p class="text-[10px]">Stock Release Date</p>
                     </div>
@@ -139,7 +139,7 @@
                     <div class="input-field h-[80px] space-y-1 col-span-1">
                         <p class="pb-1"><label for="cnclReqDt" class="text-[12px] font-semibold py-2">Cancel Request Date</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="date" value="{{sale.cnclReqDt}}"  name="cnclReqDt" id="cnclReqDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                            <input type="text" value="{{sale.cnclReqDt}}"  name="cnclReqDt" id="cnclReqDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" readonly />
                         </div>
                         <p class="text-[10px]">Cancel Request Date</p>
                     </div>
@@ -148,7 +148,7 @@
                     <div class="input-field h-[80px] space-y-1 col-span-1">
                         <p class="pb-1"><label for="cnclDt" class="text-[12px] font-semibold py-2">Cancel Date</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="date" name="cnclDt" value="{{sale.cnclDt}}" id="cnclDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                            <input type="text" name="cnclDt" value="{{sale.cnclDt}}" id="cnclDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" readonly />
                         </div>
                         <p class="text-[10px]">Cancel Date</p>
                     </div>
@@ -157,7 +157,7 @@
                     <div class="input-field h-[80px] space-y-1 col-span-1">
                         <p class="pb-1"><label for="rfdDt" class="text-[12px] font-semibold py-2">Refund Date</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="date" name="rfdDt" value="{{sale.rfdDt}}" id="rfdDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                            <input type="text" name="rfdDt" value="{{sale.rfdDt}}" id="rfdDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" readonly />
                         </div>
                         <p class="text-[10px]">Refund Date</p>
                     </div>
@@ -166,7 +166,7 @@
                     <div class="input-field h-[80px] space-y-1 col-span-1">
                         <p class="pb-1"><label for="rfdRsnCd" class="text-[12px] font-semibold py-2">Refund Reason Code</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="text" name="rfdRsnCd" value="{{sale.rfdRsnCd}}" id="rfdRsnCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Refund Reason Code" />
+                            <input type="text" name="rfdRsnCd" value="{{sale.rfdRsnCd}}" id="rfdRsnCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Refund Reason Code" readonly />
                         </div>
                         <p class="text-[10px]">Refund Reason Code</p>
                     </div>
@@ -175,7 +175,7 @@
                     <div class="input-field h-[80px] space-y-1 col-span-1">
                         <p class="pb-1"><label for="rfdAmnt" class="text-[12px] font-semibold py-2">Refund Amount</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="number"  value="{{sale.rfdAmnt}}" name="rfdAmnt" id="rfdAmnt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Refund Amount" />
+                            <input type="text"  value="{{sale.rfdAmnt}}" name="rfdAmnt" id="rfdAmnt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Refund Amount" readonly />
                         </div>
                         <p class="text-[10px]">Refund Amount</p>
                     </div>

@@ -1,105 +1,175 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from items.models import Item
+from initialization.models import Configurations
 from .models import Invoice, InvoiceItem, Credit_Note_Invoice, Credit_Note_InvoiceItem
-import json
+from django.contrib import messages
+from smartinvoice.utils import todaySi, calculate_unit_price_inclusive, safe_decimal
 
 def index(request):
+    config = Configurations.objects.first()
+    items = Item.objects.all().order_by('-id') or []
+
     if request.method == 'POST':
+        if not config:
+            messages.error(request, 'There Is No Configuration Setup Initialization')
+            return render(request, "sales/index.html", {"items": items})
+
+        sale = request.POST
+        item_names = sale.getlist('itemName[]')
+        qtys = sale.getlist('qty[]')
+        prices = sale.getlist('price[]')
+        rates = sale.getlist('rate[]')
+        amounts = sale.getlist('amount[]')
+        discount_rate = sale.getlist('discount_rate[]')
+        discount_amount = sale.getlist('discount_amount[]')
+        amounts = sale.getlist('amount[]')
+        inclusive_amounts = sale.getlist('inclusive_amount[]')
+
+        sale_items = []
+        tot_taxable_amt = 0.00
+        tot_tax_amt = 0.00
+        tot_exclusive_amt = 0.00
+        cash_dc_rt = 0.00
+        cash_dc_amt = 0.00
+        errors = []
+
+        for i in range(len(item_names)):
+            try:
+                itm = Item.objects.filter(id=item_names[i]).first()
+                if not itm:
+                    errors.append({"error": "Item not found", "item id": item_names[i]})
+                    continue
+
+                inclusive = inclusive_amounts[i]
+                rate = rates[i]
+                dis_rate = discount_rate[i]
+                dis_amt = discount_amount[i]
+                qty = qtys[i]
+
+                expected_exclusive_amt = float(amounts[i])
+                expected_price = float(prices[i])
+
+                vals = calculate_unit_price_inclusive(inclusive, rate, qty)
+
+                if vals["total_exclusive_amount"] != safe_decimal(expected_exclusive_amt):
+                    errors.append({
+                        "error": f"Exclusive Amount mismatch: {vals['total_exclusive_amount']} vs {expected_exclusive_amt}",
+                        "item name": itm.itemNm
+                    })
+
+                if vals["unit_price_exclusive"] != safe_decimal(expected_price):
+                    errors.append({
+                        "error": f"Unit Price mismatch: {vals['unit_price_exclusive']} vs {expected_price}",
+                        "item name": itm.itemNm
+                    })
+
+                calc_tax_amt = float(float(inclusive) - float(expected_exclusive_amt))
+                if vals["total_tax_amount"] != safe_decimal(calc_tax_amt):
+                    errors.append({
+                        "error": f"Tax Amount mismatch: {vals['total_tax_amount']} vs {calc_tax_amt}",
+                        "item name": itm.itemNm
+                    })
+
+                inclusive_decimal = float(inclusive)
+                tot_taxable_amt += inclusive_decimal
+                tot_exclusive_amt += float(amounts[i])
+                tot_tax_amt += inclusive_decimal - tot_exclusive_amt
+                cash_dc_amt += dis_amt
+                cash_dc_rt += dis_rate
+
+                sale_items.append({
+                    'itemSeq': i + 1,
+                    'itemNm': itm.itemNm,
+                    'itemCd': itm.itemCd,
+                    'itemClsCd': itm.itemClsCd or "Each",
+                    'bcd': itm.bcd or "",
+                    'pkgUnitCd': itm.pkgUnitCd or "EA",
+                    'pkg': 1.0,
+                    'qtyUnitCd': itm.qtyUnitCd or "EA",
+                    'qty': float(qty),
+                    'prc': float(prices[i]),
+                    # 'taxRtA': int(rate),
+                    'splyAmt': vals["total_exclusive_amount"],
+                    'totAmt': float(inclusive),
+                    'dcRt': dis_rate,
+                    'dcAmt': dis_amt,
+                    'isrccCd': "",
+                    'isrccNm': "",
+                    'vatCatCd': "A",
+                    'exciseTxCatCd': "",
+                    'tlCatCd': "",
+                    'iplCatCd': "",
+                    'isrcRt':0.00,
+                    'isrcAmt':0.00,
+                    'vatTaxblAmt': inclusive_decimal,
+                    'vatAmt': inclusive_decimal - expected_exclusive_amt,
+                    'exciseTaxblAmt':0.00,
+                    'tlTaxblAmt':0.00,
+                    'iplTaxblAmt':0.00,
+                    'iplAmt':0.00,
+                    'tlAmt':0.00,
+                    'exciseTxAmt':0.00,
+                    'totAmt': vals["total_exclusive_amount"],
+                })
+            except Exception as item_error:
+                errors.append({"error": str(item_error), "item name": item_names[i]})
+
+        if errors:
+            messages.error(request, f'There are these Errors: {errors}')
+            return render(request, "sales/index.html", {"items": items})
 
         try:
-            sale = Invoice.objects.create(
-                tpin=request.POST.get('tpin', '').strip(),
-                bhfId=request.POST.get('bhfId', '').strip(),
-                orgInvcNo=request.POST.get('orgInvcNo', 0),
-                cisInvcNo=request.POST.get('cisInvcNo', '').strip(),
-                custTpin=request.POST.get('custTpin', '').strip(),
-                custNm=request.POST.get('custNm', '').strip(),
-                salesTyCd=request.POST.get('salesTyCd', '').strip(),
-                rcptTyCd=request.POST.get('rcptTyCd', '').strip(),
-                pmtTyCd=request.POST.get('pmtTyCd', '').strip(),
-                salesSttsCd=request.POST.get('salesSttsCd', '').strip(),
-                cfmDt=request.POST.get('cfmDt'),
-                salesDt=request.POST.get('salesDt'),
-                stockRlsDt=request.POST.get('stockRlsDt') or None,
-                cnclReqDt=request.POST.get('cnclReqDt') or None,
-                cnclDt=request.POST.get('cnclDt') or None,
-                rfdDt=request.POST.get('rfdDt') or None,
-                rfdRsnCd=request.POST.get('rfdRsnCd') or None,
-                totItemCnt=request.POST.get('totItemCnt') or 0,
-                taxblAmtA=request.POST.get('taxblAmtA') or 0,
-                taxAmtA=request.POST.get('taxAmtA') or 0,
-                totTaxblAmt=request.POST.get('totTaxblAmt') or 0,
-                totTaxAmt=request.POST.get('totTaxAmt') or 0,
-                cashDcRt=request.POST.get('cashDcRt') or 0,
-                cashDcAmt=request.POST.get('cashDcAmt') or 0,
-                totAmt=request.POST.get('totAmt') or 0,
-                prchrAcptcYn=request.POST.get('prchrAcptcYn') or 'N',
-                remark=request.POST.get('remark', ''),
-                regrId=request.POST.get('regrId', ''),
-                regrNm=request.POST.get('regrNm', ''),
-                modrId=request.POST.get('modrId', ''),
-                modrNm=request.POST.get('modrNm', ''),
-                saleCtyCd=request.POST.get('saleCtyCd') or '',
-                lpoNumber=request.POST.get('lpoNumber') or None,
-                currencyTyCd=request.POST.get('currencyTyCd') or 'ZMW',
-                exchangeRt=request.POST.get('exchangeRt') or '1',
-                destnCountryCd=request.POST.get('destnCountryCd') or '',
-                dbtRsnCd=request.POST.get('dbtRsnCd') or '',
-                invcAdjustReason=request.POST.get('invcAdjustReason') or ''
+            sale_ = Invoice.objects.create(
+                tpin=config.tpin,
+                bhfId=config.bhfId,
+                orgInvcNo=sale.get('orgInvcNo', ''),
+                cisInvcNo=sale.get('cisInvcNo', ''),
+                custTpin=sale.get('custTpin', ''),
+                custNm=sale.get('custNm', ''),
+                salesTyCd="N",
+                rcptTyCd="S",
+                pmtTyCd=sale.get('pmtTyCd', '01'),
+                salesSttsCd=sale.get('salesSttsCd', '01'),
+                cfmDt=todaySi(),
+                salesDt=todaySi(),
+                totItemCnt=len(item_names),
+                totAmt=tot_exclusive_amt,
+                totTaxblAmt=tot_taxable_amt,
+                totTaxAmt=tot_tax_amt,
+                cashDcRt=cash_dc_rt,
+                cashDcAmt=cash_dc_amt,
+                prchrAcptcYn="Y",
+                regrId="admin",
+                regrNm="Admin",
+                modrId="admin",
+                modrNm="Admin",
+                saleCtyCd="01",
+                currencyTyCd=sale.get ('currencyTyCd', "ZMW"),
+                exchangeRt=sale.get ('exchangeRt', "1.0")
             )
 
-            item_list_raw = request.POST.get('itemList', '[]')
-            item_list = json.loads(item_list_raw)
+            for itm in sale_items:
+                item = InvoiceItem.objects.create(**itm)
+                sale_.itemList.add(item)
 
-            for item_data in item_list:
-                InvoiceItem.objects.create(
-                    invoice=sale,
-                    itemSeq=item_data.get('itemSeq'),
-                    itemCd=item_data.get('itemCd', ''),
-                    itemClsCd=item_data.get('itemClsCd', ''),
-                    itemNm=item_data.get('itemNm', ''),
-                    bcd=item_data.get('bcd', ''),
-                    pkgUnitCd=item_data.get('pkgUnitCd', ''),
-                    pkg=item_data.get('pkg', 0),
-                    qtyUnitCd=item_data.get('qtyUnitCd', ''),
-                    qty=item_data.get('qty', 0),
-                    prc=item_data.get('prc', 0),
-                    splyAmt=item_data.get('splyAmt', 0),
-                    dcRt=item_data.get('dcRt', 0),
-                    dcAmt=item_data.get('dcAmt', 0),
-                    isrccCd=item_data.get('isrccCd', ''),
-                    isrccNm=item_data.get('isrccNm', ''),
-                    isrcRt=item_data.get('isrcRt', 0),
-                    isrcAmt=item_data.get('isrcAmt', 0),
-                    vatCatCd=item_data.get('vatCatCd'),
-                    exciseTxCatCd=item_data.get('exciseTxCatCd'),
-                    tlCatCd=item_data.get('tlCatCd'),
-                    iplCatCd=item_data.get('iplCatCd'),
-                    vatTaxblAmt=item_data.get('vatTaxblAmt', 0),
-                    vatAmt=item_data.get('vatAmt', 0),
-                    exciseTaxblAmt=item_data.get('exciseTaxblAmt', 0),
-                    tlTaxblAmt=item_data.get('tlTaxblAmt', 0),
-                    iplTaxblAmt=item_data.get('iplTaxblAmt', 0),
-                    iplAmt=item_data.get('iplAmt', 0),
-                    tlAmt=item_data.get('tlAmt', 0),
-                    exciseTxAmt=item_data.get('exciseTxAmt', 0),
-                    totAmt=item_data.get('totAmt', 0),
-                )
-
-            return redirect('sale-info', sale.id)
-
+            sale_.save()
+            return redirect('sale-info', sale_.id)
         except Exception as e:
-            print(f"Error saving sale: {str(e)}")
-    return render(request, "sales/index.html")
+            messages.error(request, f'There was an error saving the invoice: {e}')
+            print(f"ERROR: {e}")
+
+    return render(request, "sales/index.html", {"items": items})
 
 def info(request, id):
     invoice = None
     try:
         invoice = get_object_or_404(Invoice, pk=id)
+        print (invoice)
         if not invoice:
             return redirect("sales")
     except Exception as e:
         print(f"{e}")
-    return render(request, "sales/info.html", {"invoice": invoice})
+    return render(request, "sales/info.html", {"sale": invoice})
 
 
 def credit_note_list(request):
@@ -108,7 +178,15 @@ def credit_note_list(request):
         invoices = Credit_Note_Invoice.objects.all().order_by('-id')
     except Exception as e:
         print(f"{e}")
-    return render(request, "sales/credit-notes.html", {"invoice": invoices})
+    return render(request, "sales/credit-notes.html", {"invoices": invoices})
+
+def sales_list(request):
+    invoices = []
+    try:
+        invoices = Invoice.objects.all().order_by('-id')
+    except Exception as e:
+        print(f"{e}")
+    return render(request, "sales/sales-list.html", {"invoices": invoices})
 
 def credit_note_info(request, id):
     invoice = []
@@ -119,10 +197,11 @@ def credit_note_info(request, id):
     return render(request, "sales/credit-note-info.html", {"invoice": invoice})
 
 
-def credit_note_new(request, id):
-    invoices = Invoice.objects.all ().order_by('-id')
+def credit_note_new (request):
+    items = Item.objects.all ().order_by ('-id')
+    invoices = Invoice.objects.all ().order_by ('-id')
     try:
         pass
     except Exception as e:
         print(f"{e}")
-    return render(request, "sales/credit-note-new.html", {"invoices": invoices})
+    return render(request, "sales/credit-note-form.html", {"items": items, "invoices": invoices})

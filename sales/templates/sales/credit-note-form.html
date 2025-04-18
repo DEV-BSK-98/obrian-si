@@ -8,31 +8,34 @@
             <div class="h-[50px] w-full border-b border-slate-600 pb-3">
                 <div class="h-full w-full flex gap-3 justify-between items-center">
                     <div class="title h-full w-full flex items-center">
-                        <span class="font-bold text-2xl uppercase">Sales</span>
+                        <span class="font-bold text-2xl uppercase">Credit Note</span>
                     </div>
                     <div class="flex w-max gap-3 h-full items-center">
-                        <button class="cursor-pointer rounded-lg bg-emerald-700 py-2 px-4 opacity-75 hover:opacity-100 whitespace-nowrap transition-all duration-300 ease-in-out">Save Sale</button>
+                        <button class="cursor-pointer rounded-lg bg-emerald-700 py-2 px-4 opacity-75 hover:opacity-100 whitespace-nowrap transition-all duration-300 ease-in-out">Save Credit Note</button>
                     </div>
                 </div>
             </div>
             <div class="min-h-[90px] mt-5 w-full">
+                {% if messages %}
+                    {% for message in messages %}
+                        <p class="text-red-500">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
                 <div class="h-full w-full grid grid-cols-4 gap-3 gap-y-5">
                     <!-- T-Pin -->
                     <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="tpin" class="text-[12px] font-semibold py-2">T-Pin</label></p>
+                        <p class="pb-1"><label for="tpin" class="text-[12px] font-semibold py-2">Invoice</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="text" name="tpin" id="tpin" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="T-Pin" />
+                            <select class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" name="sale">
+                                <option>Select Invoice</option>
+                                {% if invoices %}
+                                    {% for invoice in invoices %}
+                                        <option value="{{ invoice.id }}">{{ invoice.cisInvcNo }}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            </select>
                         </div>
-                        <p class="text-[10px]">T-Pin Number</p>
-                    </div>
-
-                    <!-- BHF ID -->
-                    <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="bhfId" class="text-[12px] font-semibold py-2">BHF ID</label></p>
-                        <div class="h-[50%] w-full">
-                            <input type="text" name="bhfId" id="bhfId" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="BHF ID" />
-                        </div>
-                        <p class="text-[10px]">BHF ID</p>
+                        <p class="text-[10px]">Invoice Number</p>
                     </div>
 
                     <!-- Original Invoice Number -->
@@ -52,48 +55,21 @@
                         </div>
                         <p class="text-[10px]">CIS Invoice Number</p>
                     </div>
-
-                    <!-- Customer T-Pin -->
-                    <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="custTpin" class="text-[12px] font-semibold py-2">Customer T-Pin</label></p>
-                        <div class="h-[50%] w-full">
-                            <input type="text" name="custTpin" id="custTpin" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Customer T-Pin" />
-                        </div>
-                        <p class="text-[10px]">Customer T-Pin</p>
-                    </div>
-
-                    <!-- Customer Name -->
-                    <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="custNm" class="text-[12px] font-semibold py-2">Customer Name</label></p>
-                        <div class="h-[50%] w-full">
-                            <input type="text" name="custNm" id="custNm" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Customer Name" />
-                        </div>
-                        <p class="text-[10px]">Customer Name</p>
-                    </div>
-
-                    <!-- Sales Type Code -->
-                    <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="salesTyCd" class="text-[12px] font-semibold py-2">Sales Type Code</label></p>
-                        <div class="h-[50%] w-full">
-                            <input type="text" name="salesTyCd" id="salesTyCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Sales Type Code" />
-                        </div>
-                        <p class="text-[10px]">Sales Type Code</p>
-                    </div>
-
-                    <!-- Receipt Type Code -->
-                    <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="rcptTyCd" class="text-[12px] font-semibold py-2">Receipt Type Code</label></p>
-                        <div class="h-[50%] w-full">
-                            <input type="text" name="rcptTyCd" id="rcptTyCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Receipt Type Code" />
-                        </div>
-                        <p class="text-[10px]">Receipt Type Code</p>
-                    </div>
-
                     <!-- Payment Type Code -->
                     <div class="input-field h-[80px] space-y-1 col-span-1">
                         <p class="pb-1"><label for="pmtTyCd" class="text-[12px] font-semibold py-2">Payment Type Code</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="text" name="pmtTyCd" id="pmtTyCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Payment Type Code" />
+                            <select  name="pmtTyCd" id="pmtTyCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full">
+                                <option>Select Payment Method</option>
+                                <option value="01">Cash</option>
+                                <option value="02">Credit</option>
+                                <option value="03">Cash/Credit</option>
+                                <option value="04">Bank Check</option>
+                                <option value="05">Debit & Credit Card</option>
+                                <option value="06">Mobile Money</option>
+                                <option value="07">Bank Transfer</option>
+                                <option value="08">Other</option>
+                            </select>
                         </div>
                         <p class="text-[10px]">Payment Type Code</p>
                     </div>
@@ -102,130 +78,103 @@
                     <div class="input-field h-[80px] space-y-1 col-span-1">
                         <p class="pb-1"><label for="salesSttsCd" class="text-[12px] font-semibold py-2">Sales Status Code</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="text" name="salesSttsCd" id="salesSttsCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Sales Status Code" />
+                            <select  name="salesSttsCd" id="salesSttsCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full">
+                                <option>Select Sale Status</option>
+                                <option value="02">Approved</option>
+                                <option value="05">Refunded</option>
+                                <option value="06">Transferred</option>
+                                <option value="04">Rejected</option>
+                            </select>
                         </div>
                         <p class="text-[10px]">Sales Status Code</p>
-                    </div>
-
-                    <!-- Confirmation Date -->
-                    <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="cfmDt" class="text-[12px] font-semibold py-2">Confirmation Date</label></p>
-                        <div class="h-[50%] w-full">
-                            <input type="datetime-local" name="cfmDt" id="cfmDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
-                        </div>
-                        <p class="text-[10px]">Confirmation Date</p>
-                    </div>
-
-                    <!-- Sales Date -->
-                    <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="salesDt" class="text-[12px] font-semibold py-2">Sales Date</label></p>
-                        <div class="h-[50%] w-full">
-                            <input type="date" name="salesDt" id="salesDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
-                        </div>
-                        <p class="text-[10px]">Sales Date</p>
-                    </div>
-
-                    <!-- Stock Release Date -->
-                    <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="stockRlsDt" class="text-[12px] font-semibold py-2">Stock Release Date</label></p>
-                        <div class="h-[50%] w-full">
-                            <input type="date" name="stockRlsDt" id="stockRlsDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
-                        </div>
-                        <p class="text-[10px]">Stock Release Date</p>
-                    </div>
-
-                    <!-- Cancel Request Date -->
-                    <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="cnclReqDt" class="text-[12px] font-semibold py-2">Cancel Request Date</label></p>
-                        <div class="h-[50%] w-full">
-                            <input type="date" name="cnclReqDt" id="cnclReqDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
-                        </div>
-                        <p class="text-[10px]">Cancel Request Date</p>
-                    </div>
-
-                    <!-- Cancel Date -->
-                    <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="cnclDt" class="text-[12px] font-semibold py-2">Cancel Date</label></p>
-                        <div class="h-[50%] w-full">
-                            <input type="date" name="cnclDt" id="cnclDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
-                        </div>
-                        <p class="text-[10px]">Cancel Date</p>
-                    </div>
-
-                    <!-- Refund Date -->
-                    <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="rfdDt" class="text-[12px] font-semibold py-2">Refund Date</label></p>
-                        <div class="h-[50%] w-full">
-                            <input type="date" name="rfdDt" id="rfdDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
-                        </div>
-                        <p class="text-[10px]">Refund Date</p>
                     </div>
 
                     <!-- Refund Reason Code -->
                     <div class="input-field h-[80px] space-y-1 col-span-1">
                         <p class="pb-1"><label for="rfdRsnCd" class="text-[12px] font-semibold py-2">Refund Reason Code</label></p>
                         <div class="h-[50%] w-full">
-                            <input type="text" name="rfdRsnCd" id="rfdRsnCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Refund Reason Code" />
+                            <select  name="rfdRsnCd" id="rfdRsnCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full">
+                                <option>Select Reason</option>
+                                <option value="01">Wrong product(s)</option>
+                                <option value="02">Wrong price</option>
+                                <option value="03">Damaged Good</option>
+                                <option value="04">Wrong Customer Invoiced</option>
+                                <option value="05">Duplicated invoice</option>
+                                <option value="06">Excess supplies</option>
+                                <option value="07">Other</option>
+                            </select>
                         </div>
-                        <p class="text-[10px]">Refund Reason Code</p>
-                    </div>
-
-                    <!-- Refund Amount -->
-                    <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="rfdAmnt" class="text-[12px] font-semibold py-2">Refund Amount</label></p>
-                        <div class="h-[50%] w-full">
-                            <input type="number" name="rfdAmnt" id="rfdAmnt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Refund Amount" />
-                        </div>
-                        <p class="text-[10px]">Refund Amount</p>
+                        <p class="text-[10px]">Credit Note Reason</p>
                     </div>
 
                     <div class="col-span-4">
                         <div class="flex justify-between items-center mb-2">
-                            <h2 class="text-sm font-semibold">Items</h2>
+                            <h2 class="text-sm font-semibold">Items Returned </h2>
                             <button id="addRow" type="button" class="text-sm px-3 flex justify-center items-center py-1 bg-sky-600 text-white rounded hover:bg-sky-700">
                                 <span class="material-symbols-outlined">
                                     add
                                 </span>
                             </button>
                         </div>
-                        <table class="w-full text-sm rounded-md">
-                            <thead class="rounded-md">
-                                <tr class="bg-emerald-500">
-                                    <th class="p-2 rounded-l-md">Item Name</th>
-                                    <th class="p-2">Qty</th>
-                                    <th class="p-2">Price</th>
-                                    <th class="p-2">% Tax Rate</th>
-                                    <th class="p-2">Exclusive Amount</th>
-                                    <th class="p-2">Inclusive Amount</th>
-                                    <th class="p-2 text-center rounded-r-md">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="itemTable">
-                                <tr >
-                                    <td class="h-[40px] p-1 rounded-l-md">
-                                        <input type="text" name="itemName[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Item Name" />
-                                    </td>
-                                    <td class="h-[40px] p-1">
-                                        <input type="number" name="qty[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Qty" />
-                                    </td>
-                                    <td class="h-[40px] p-1">
-                                        <input type="number" name="price[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Price" />
-                                    </td>
-                                    <td class="h-[40px] p-1">
-                                        <input type="number" name="rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" />
-                                    </td>
-                                    <td class="h-[40px] p-1">
-                                        <input type="number" name="amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
-                                    </td>
-                                    <td class="h-[40px] p-1">
-                                        <input type="number" name="inclusive_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
-                                    </td>
-                                    <td class="h-[40px] p-1 text-center">
-                                        <button type="button" class="removeRow text-red-600 hover:underline text-xs">Remove</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="w-full overflow-x-auto py-3">
+                            <table class="w-full text-sm rounded-md">
+                                <thead class="rounded-md">
+                                    <tr class="bg-emerald-500">
+                                        <th class="p-2  min-w-[250px] rounded-l-md">Item Name</th>
+                                        <th class="p-2  min-w-[250px]">Returned Qty</th>
+                                        <th class="p-2  min-w-[250px]">Price</th>
+                                        <th class="p-2  min-w-[250px]">Tax Type's</th>
+                                        <th class="p-2  min-w-[250px]">% Tax Rate</th>
+                                        <th class="p-2  min-w-[250px]">% Discount Rate</th>
+                                        <th class="p-2  min-w-[250px]">Discount Amount</th>
+                                        <th class="p-2  min-w-[250px]">Exclusive Amount</th>
+                                        <th class="p-2  min-w-[250px]">Inclusive Amount</th>
+                                        <th class="p-2  min-w-[70px] text-center rounded-r-md">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="itemTable">
+                                    <tr >
+                                        <td class="h-[40px] p-1 rounded-l-md">
+                                            <select class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" name="itemName[]">
+                                                <option>Select Item</option>
+                                                {% if items %}
+                                                    {% for item in items %}
+                                                        <option value="{{ item.id }}">{{ item.itemNm }}</option>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </select>
+                                        </td>
+                                        <td class="h-[40px] p-1">
+                                            <input type="number" name="qty[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Qty" />
+                                        </td>
+                                        <td class="h-[40px] p-1">
+                                            <input type="number" name="price[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Price" />
+                                        </td>
+                                        <td class="h-[40px] p-1">
+                                            <input type="text" name="price[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Price" />
+                                        </td>
+                                        <td class="h-[40px] p-1">
+                                            <input type="number" name="rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" />
+                                        </td>
+                                        <td class="h-[40px] p-1">
+                                            <input type="number" name="discount_rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" />
+                                        </td>
+                                        <td class="h-[40px] p-1">
+                                            <input type="number" name="discount_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
+                                        </td>
+                                        <td class="h-[40px] p-1">
+                                            <input type="number" name="amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
+                                        </td>
+                                        <td class="h-[40px] p-1">
+                                            <input type="number" name="inclusive_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
+                                        </td>
+                                        <td class="h-[40px] p-1 text-center">
+                                            <button type="button" class="removeRow text-red-600 hover:underline text-xs">Remove</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -241,21 +190,31 @@
             const priceInput = row.querySelector('input[name="price[]"]');
             const rateInput = row.querySelector('input[name="rate[]"]');
             const amountInput = row.querySelector('input[name="amount[]"]');
+            const rateDiscountInput = row.querySelector('input[name="discount_rate[]"]');
+            const amountDiscountInput = row.querySelector('input[name="discount_amount[]"]');
             const inclusiveAmountInput = row.querySelector('input[name="inclusive_amount[]"]');
 
-            const qty = parseFloat(qtyInput.value) || 0;
-            const price = parseFloat(priceInput.value) || 0;
-            const rate = parseFloat(rateInput.value) || 0;
+            const qty = parseFloat(qtyInput?.value) || 0;
+            const price = parseFloat(priceInput?.value) || 0;
+            const rate = parseFloat(rateInput?.value) || 0;
+            const rateDiscount = parseFloat(rateDiscountInput?.value) || 0;
 
-            const baseAmount = qty * price;
-            const finalAmount = baseAmount + (baseAmount * rate / 100);
+            const principleAmount = qty * price;
 
-            amountInput.value = baseAmount.toFixed(2);
-            inclusiveAmountInput.value = finalAmount.toFixed(2);
+            const discountAmount = rateDiscount ? (principleAmount * rateDiscount / 100) : 0;
+
+            const baseAmount = principleAmount - discountAmount;
+            const finalInclusiveAmount = baseAmount + (baseAmount * rate / 100);
+            if (amountInput) amountInput.value = baseAmount.toFixed(2);
+            if (amountDiscountInput) amountDiscountInput.value = discountAmount.toFixed(2);
+            if (inclusiveAmountInput) inclusiveAmountInput.value = finalInclusiveAmount.toFixed(2);
         }
 
+
         function addInputListeners(row) {
-            const inputs = row.querySelectorAll('input[name="qty[]"], input[name="price[]"], input[name="rate[]"]');
+            const inputs = row.querySelectorAll(
+                'input[name="qty[]"], input[name="price[]"], input[name="rate[]"], input[name="discount_rate[]"]'
+            );
             inputs.forEach(input => {
                 input.addEventListener('input', () => calculateAmount(row));
             });
@@ -267,7 +226,14 @@
             const newRow = document.createElement('tr');
             newRow.innerHTML = `
                 <td class="h-[40px] p-1 rounded-l-md">
-                    <input type="text" name="itemName[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Item Name" />
+                    <select class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" name="itemName[]">
+                        <option>Select Item</option>
+                        {% if items %}
+                            {% for item in items %}
+                                <option value="{{ item.id }}">{{ item.itemNm }}</option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
                 </td>
                 <td class="h-[40px] p-1">
                     <input type="number" name="qty[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Qty" />
@@ -277,6 +243,12 @@
                 </td>
                 <td class="h-[40px] p-1">
                     <input type="number" name="rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" />
+                </td>
+                <td class="h-[40px] p-1">
+                    <input type="number" name="discount_rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" />
+                </td>
+                <td class="h-[40px] p-1">
+                    <input type="number" name="discount_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
                 </td>
                 <td class="h-[40px] p-1">
                     <input type="number" name="amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />

@@ -8,6 +8,7 @@ class Item(models.Model):
     itemCd = models.CharField("Item Code", max_length=255)
     itemClsCd = models.CharField("Item Class Code", max_length=255)
     itemTyCd = models.CharField("Item Type Code", max_length=255)
+    bcd = models.CharField("Item Type Code", max_length=255)
     orgnNatCd = models.CharField("Country Of Origin", max_length=255)
     pkgUnitCd = models.CharField("Packing Unit", max_length=100)
     qtyUnitCd = models.CharField("QTY Unit", max_length=100)

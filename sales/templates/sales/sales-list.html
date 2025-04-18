@@ -6,10 +6,10 @@
         <div class="h-[50px] w-full border-b border-slate-600 pb-3">
             <div class="h-full w-full flex gap-3 justify-between items-center">
                 <div class="title h-full w-full flex items-center">
-                    <span class="font-bold text-2xl uppercase">Credit Notes</span>
+                    <span class="font-bold text-2xl uppercase">Sales List</span>
                 </div>
                 <div class="flex w-max gap-3 h-full items-center">
-                    <a href="{% url 'credit-new-note' %}" class="cursor-pointer rounded-lg bg-emerald-700 py-2 px-4 opacity-75 hover:opacity-100 whitespace-nowrap transition-all duration-300 ease-in-out">New Credit Note</a>
+                    <a href="{% url 'sale-new' %}" class="cursor-pointer rounded-lg bg-emerald-700 py-2 px-4 opacity-75 hover:opacity-100 whitespace-nowrap transition-all duration-300 ease-in-out">New Sale</a>
                 </div>
             </div>
         </div>
@@ -29,25 +29,21 @@
                     </thead>
                     <tbody class="text-[13px]">
                     {% for invoice in invoices %}
-                    <tr class="border-b border-slate-200 hover:bg-slate-50/30">
-                        <td class="p-3 rounded-l-md">{{ forloop.counter }}</td>
-                        <td class="p-3">{{ invoice.tpin }}</td>
-                        <td class="p-3">{{ invoice.custNm }}</td>
-                        <td class="p-3">{{ invoice.orgInvcNo }}</td>
-                        <td class="p-3">{{ invoice.salesDt }}</td>
-                        <td class="p-3">{{ invoice.rfdAmnt }}</td>
-                        <td class="p-3 text-center rounded-r-md">
-                        <a href="{% url 'invoice_view' invoice.id %}" class="text-blue-600 hover:underline">View</a>
-                        |
-                        <a href="{% url 'invoice_edit' invoice.id %}" class="text-yellow-600 hover:underline">Edit</a>
-                        |
-                        <a href="{% url 'invoice_delete' invoice.id %}" class="text-red-600 hover:underline">Delete</a>
-                        </td>
-                    </tr>
+                        <tr class="border-b border-slate-200 hover:bg-slate-50/30">
+                            <td class="p-3 rounded-l-md">{{ forloop.counter }}</td>
+                            <td class="p-3 text-center">{{ invoice.tpin }}</td>
+                            <td class="p-3 text-center">{{ invoice.custNm }}</td>
+                            <td class="p-3 text-center">{{ invoice.orgInvcNo }}</td>
+                            <td class="p-3 text-center">{{ invoice.salesDt }}</td>
+                            <td class="p-3 text-center">{{ invoice.totAmt }}</td>
+                            <td class="p-3 text-center rounded-r-md">
+                                <a href="{% url 'sale-info' invoice.id %}" class="text-emerald-600 hover:underline">View</a>
+                            </td>
+                        </tr>
                     {% empty %}
-                    <tr>
-                        <td colspan="7" class="text-center text-slate-500 text-[17px] p-4">No Credit Note found.</td>
-                    </tr>
+                        <tr>
+                            <td colspan="7" class="text-center text-slate-500 text-[17px] p-4">No Sale found.</td>
+                        </tr>
                     {% endfor %}
                     </tbody>
                 </table>
