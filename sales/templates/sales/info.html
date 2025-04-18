@@ -125,59 +125,66 @@
                         </div>
                         <p class="text-[10px]">Sales Date</p>
                     </div>
-
-                    <!-- Stock Release Date -->
-                    <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="stockRlsDt" class="text-[12px] font-semibold py-2">Stock Release Date</label></p>
-                        <div class="h-[50%] w-full">
-                            <input type="text" name="stockRlsDt" value="{{sale.stockRlsDt}}"  id="stockRlsDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" readonly />
+                    <div class="col-span-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <h2 class="text-sm font-semibold">Add Items</h2>
                         </div>
-                        <p class="text-[10px]">Stock Release Date</p>
-                    </div>
-
-                    <!-- Cancel Request Date -->
-                    <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="cnclReqDt" class="text-[12px] font-semibold py-2">Cancel Request Date</label></p>
-                        <div class="h-[50%] w-full">
-                            <input type="text" value="{{sale.cnclReqDt}}"  name="cnclReqDt" id="cnclReqDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" readonly />
+                        <div class="w-full overflow-x-auto py-3">
+                            <table class="w-full text-sm rounded-md">
+                                <thead class="rounded-md">
+                                    <tr class="bg-emerald-500">
+                                        <th class="p-2 min-w-[250px] rounded-l-md">Item Name</th>
+                                        <th class="p-2 min-w-[250px]">Qty</th>
+                                        <th class="p-2 min-w-[250px]">Price</th>
+                                        <th class="p-2 min-w-[250px]">Tax Type's</th>
+                                        <th class="p-2 min-w-[250px]">% Tax Rate</th>
+                                        <th class="p-2 min-w-[250px]">Tax Amount</th>
+                                        <th class="p-2 min-w-[250px]">% Discount Rate</th>
+                                        <th class="p-2 min-w-[250px]">Discount Amount</th>
+                                        <th class="p-2 min-w-[250px]">Exclusive Amount</th>
+                                        <th class="p-2 min-w-[250px]">Inclusive Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="itemTable">
+                                    {% if sale.itemList %}
+                                        {% for item in sale.itemList.all %}
+                                            <tr >
+                                                <td class="h-[40px] p-1 rounded-l-md">
+                                                    <input value="{{item.itemNm}}" type="text" name="itemName[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Price" readonly />
+                                                </td>
+                                                <td class="h-[40px] p-1">
+                                                    <input type="text" value="{{item.qty}}" name="qty[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Qty" readonly />
+                                                </td>
+                                                <td class="h-[40px] p-1">
+                                                    <input type="text" value="{{item.prc}}" name="price[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Price" readonly />
+                                                </td>
+                                                <td class="h-[40px] p-1">
+                                                    <input type="text" value="{{item.tax_types}}" name="tax_types[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Separated by Commas" readonly />
+                                                </td>
+                                                <td class="h-[40px] p-1">
+                                                    <input type="text" value="{{sale.taxRtA}}" name="rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" readonly />
+                                                </td>
+                                                <td class="h-[40px] p-1">
+                                                    <input type="text" value="{{sale.vatAmt}}" name="tax_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" readonly />
+                                                </td>
+                                                <td class="h-[40px] p-1">
+                                                    <input type="text" value="{{item.dcRt}}" name="discount_rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" readonly />
+                                                </td>
+                                                <td class="h-[40px] p-1">
+                                                    <input type="text" value="{{item.dcAmt}}" name="discount_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
+                                                </td>
+                                                <td class="h-[40px] p-1">
+                                                    <input type="text" value="{{item.totAmt}}" name="amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
+                                                </td>
+                                                <td class="h-[40px] p-1">
+                                                    <input type="text" value="{{item.totAmt}}" name="inclusive_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
                         </div>
-                        <p class="text-[10px]">Cancel Request Date</p>
-                    </div>
-
-                    <!-- Cancel Date -->
-                    <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="cnclDt" class="text-[12px] font-semibold py-2">Cancel Date</label></p>
-                        <div class="h-[50%] w-full">
-                            <input type="text" name="cnclDt" value="{{sale.cnclDt}}" id="cnclDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" readonly />
-                        </div>
-                        <p class="text-[10px]">Cancel Date</p>
-                    </div>
-
-                    <!-- Refund Date -->
-                    <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="rfdDt" class="text-[12px] font-semibold py-2">Refund Date</label></p>
-                        <div class="h-[50%] w-full">
-                            <input type="text" name="rfdDt" value="{{sale.rfdDt}}" id="rfdDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" readonly />
-                        </div>
-                        <p class="text-[10px]">Refund Date</p>
-                    </div>
-
-                    <!-- Refund Reason Code -->
-                    <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="rfdRsnCd" class="text-[12px] font-semibold py-2">Refund Reason Code</label></p>
-                        <div class="h-[50%] w-full">
-                            <input type="text" name="rfdRsnCd" value="{{sale.rfdRsnCd}}" id="rfdRsnCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Refund Reason Code" readonly />
-                        </div>
-                        <p class="text-[10px]">Refund Reason Code</p>
-                    </div>
-
-                    <!-- Refund Amount -->
-                    <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="rfdAmnt" class="text-[12px] font-semibold py-2">Refund Amount</label></p>
-                        <div class="h-[50%] w-full">
-                            <input type="text"  value="{{sale.rfdAmnt}}" name="rfdAmnt" id="rfdAmnt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Refund Amount" readonly />
-                        </div>
-                        <p class="text-[10px]">Refund Amount</p>
                     </div>
                 </div>
             </div>

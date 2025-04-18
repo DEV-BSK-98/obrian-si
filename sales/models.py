@@ -32,6 +32,7 @@ class InvoiceItem(models.Model):
     tlAmt = models.FloatField(default=0.00, null=True)
     exciseTxAmt = models.FloatField(default=0.00, null=True)
     totAmt = models.FloatField(default=0.00, null=True)
+    tax_types = models.CharField(max_length=10, blank=True, null=True)
 
     def __str__(self):
         return self.itemNm
@@ -263,7 +264,6 @@ class Debit_Note_Invoice(models.Model):
     rfdRsnCd = models.CharField(max_length=20, null=True, blank=True)
 
     totItemCnt = models.IntegerField(default=0.00, null=True)
-    
     # Taxable Amounts
     taxblAmtA = models.FloatField(default=0.00, null=True)
     taxblAmtB = models.FloatField(default=0.00, null=True)

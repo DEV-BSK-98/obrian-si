@@ -120,16 +120,17 @@
                             <table class="w-full text-sm rounded-md">
                                 <thead class="rounded-md">
                                     <tr class="bg-emerald-500">
-                                        <th class="p-2  min-w-[250px] rounded-l-md">Item Name</th>
-                                        <th class="p-2  min-w-[250px]">Returned Qty</th>
-                                        <th class="p-2  min-w-[250px]">Price</th>
-                                        <th class="p-2  min-w-[250px]">Tax Type's</th>
-                                        <th class="p-2  min-w-[250px]">% Tax Rate</th>
-                                        <th class="p-2  min-w-[250px]">% Discount Rate</th>
-                                        <th class="p-2  min-w-[250px]">Discount Amount</th>
-                                        <th class="p-2  min-w-[250px]">Exclusive Amount</th>
-                                        <th class="p-2  min-w-[250px]">Inclusive Amount</th>
-                                        <th class="p-2  min-w-[70px] text-center rounded-r-md">Actions</th>
+                                        <th class="p-2 min-w-[250px] rounded-l-md">Item Name</th>
+                                        <th class="p-2 min-w-[250px]">Qty</th>
+                                        <th class="p-2 min-w-[250px]">Price</th>
+                                        <th class="p-2 min-w-[250px]">Tax Type's</th>
+                                        <th class="p-2 min-w-[250px]">% Tax Rate</th>
+                                        <th class="p-2  min-w-[250px]">Tax Amount</th>
+                                        <th class="p-2 min-w-[250px]">% Discount Rate</th>
+                                        <th class="p-2 min-w-[250px]">Discount Amount</th>
+                                        <th class="p-2 min-w-[250px]">Exclusive Amount</th>
+                                        <th class="p-2 min-w-[250px]">Inclusive Amount</th>
+                                        <th class="p-2 min-w-[80px] text-center rounded-r-md">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="itemTable">
@@ -151,10 +152,13 @@
                                             <input type="number" name="price[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Price" />
                                         </td>
                                         <td class="h-[40px] p-1">
-                                            <input type="text" name="price[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Price" />
+                                            <input type="text" name="tax_types[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Separated by Commas" />
                                         </td>
                                         <td class="h-[40px] p-1">
                                             <input type="number" name="rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" />
+                                        </td>
+                                        <td class="h-[40px] p-1">
+                                            <input type="number" name="tax_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" readonly />
                                         </td>
                                         <td class="h-[40px] p-1">
                                             <input type="number" name="discount_rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" />
@@ -189,25 +193,26 @@
             const qtyInput = row.querySelector('input[name="qty[]"]');
             const priceInput = row.querySelector('input[name="price[]"]');
             const rateInput = row.querySelector('input[name="rate[]"]');
+            const taxAmountInput = row.querySelector('input[name="tax_amount[]"]');
             const amountInput = row.querySelector('input[name="amount[]"]');
-            const rateDiscountInput = row.querySelector('input[name="discount_rate[]"]');
-            const amountDiscountInput = row.querySelector('input[name="discount_amount[]"]');
+            const discountRateInput = row.querySelector('input[name="discount_rate[]"]');
+            const discountAmountInput = row.querySelector('input[name="discount_amount[]"]');
             const inclusiveAmountInput = row.querySelector('input[name="inclusive_amount[]"]');
 
-            const qty = parseFloat(qtyInput?.value) || 0;
-            const price = parseFloat(priceInput?.value) || 0;
-            const rate = parseFloat(rateInput?.value) || 0;
-            const rateDiscount = parseFloat(rateDiscountInput?.value) || 0;
+            const qty = parseFloat(qtyInput.value) || 0;
+            const price = parseFloat(priceInput.value) || 0;
+            const taxRate = parseFloat(rateInput.value) || 0;
+            const discountRate = parseFloat(discountRateInput.value) || 0;
 
-            const principleAmount = qty * price;
+            const exclusiveAmount = qty * price;
+            const taxAmount = (exclusiveAmount * taxRate) / 100;
+            const discountAmount = (exclusiveAmount * discountRate) / 100;
+            const inclusiveAmount = exclusiveAmount + taxAmount - discountAmount;
 
-            const discountAmount = rateDiscount ? (principleAmount * rateDiscount / 100) : 0;
-
-            const baseAmount = principleAmount - discountAmount;
-            const finalInclusiveAmount = baseAmount + (baseAmount * rate / 100);
-            if (amountInput) amountInput.value = baseAmount.toFixed(2);
-            if (amountDiscountInput) amountDiscountInput.value = discountAmount.toFixed(2);
-            if (inclusiveAmountInput) inclusiveAmountInput.value = finalInclusiveAmount.toFixed(2);
+            taxAmountInput.value = taxAmount.toFixed(2);
+            discountAmountInput.value = discountAmount.toFixed(2);
+            amountInput.value = exclusiveAmount.toFixed(2);
+            inclusiveAmountInput.value = inclusiveAmount.toFixed(2);
         }
 
 
@@ -242,7 +247,13 @@
                     <input type="number" name="price[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Price" />
                 </td>
                 <td class="h-[40px] p-1">
+                    <input type="text" name="tax_types[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Separated by Commas" />
+                </td>
+                <td class="h-[40px] p-1">
                     <input type="number" name="rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" />
+                </td>
+                <td class="h-[40px] p-1">
+                    <input type="text" name="tax_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" readonly />
                 </td>
                 <td class="h-[40px] p-1">
                     <input type="number" name="discount_rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" />

@@ -143,7 +143,7 @@ def send_api_request(method, url, headers=None, data=None, json=None, params=Non
 
 from decimal import Decimal, getcontext, ROUND_HALF_UP
 
-def calculate_unit_price_inclusive(total_inclusive_amount, rate_percent, quantity, decimal_places=2):
+def calculate_unit_price_inclusive(total_inclusive_amount, rate_percent, quantity, dic_rate=0, decimal_places=2):
     """
     Calculates:
       1. Unit price exclusive of the tax rate
@@ -191,3 +191,9 @@ def safe_decimal(value, default='0.00', decimal_places=2):
         return Decimal(cleaned).quantize(Decimal('1.' + '0' * decimal_places), rounding=ROUND_HALF_UP)
     except (InvalidOperation, ValueError, TypeError):
         return Decimal(default).quantize(Decimal('1.' + '0' * decimal_places), rounding=ROUND_HALF_UP)
+
+def safe_float(value):
+    try:
+        return float(value)
+    except (ValueError, TypeError):
+        return 0.0

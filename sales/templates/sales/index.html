@@ -133,6 +133,7 @@
                                         <th class="p-2 min-w-[250px]">Price</th>
                                         <th class="p-2 min-w-[250px]">Tax Type's</th>
                                         <th class="p-2 min-w-[250px]">% Tax Rate</th>
+                                        <th class="p-2  min-w-[250px]">Tax Amount</th>
                                         <th class="p-2 min-w-[250px]">% Discount Rate</th>
                                         <th class="p-2 min-w-[250px]">Discount Amount</th>
                                         <th class="p-2 min-w-[250px]">Exclusive Amount</th>
@@ -144,7 +145,6 @@
                                     <tr >
                                         <td class="h-[40px] p-1 rounded-l-md">
                                             <select class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" name="itemName[]">
-                                                <option>Select Item</option>
                                                 {% if items %}
                                                     {% for item in items %}
                                                         <option value="{{ item.id }}">{{ item.itemNm }}</option>
@@ -163,6 +163,9 @@
                                         </td>
                                         <td class="h-[40px] p-1">
                                             <input type="number" name="rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" />
+                                        </td>
+                                        <td class="h-[40px] p-1">
+                                            <input type="number" name="tax_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" readonly />
                                         </td>
                                         <td class="h-[40px] p-1">
                                             <input type="number" name="discount_rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" />
@@ -197,24 +200,31 @@
             const qtyInput = row.querySelector('input[name="qty[]"]');
             const priceInput = row.querySelector('input[name="price[]"]');
             const rateInput = row.querySelector('input[name="rate[]"]');
+            const taxAmountInput = row.querySelector('input[name="tax_amount[]"]');
             const amountInput = row.querySelector('input[name="amount[]"]');
             const rateDiscountInput = row.querySelector('input[name="discount_rate[]"]');
             const amountDiscountInput = row.querySelector('input[name="discount_amount[]"]');
             const inclusiveAmountInput = row.querySelector('input[name="inclusive_amount[]"]');
 
-            const qty = parseFloat(qtyInput?.value) || 0;
-            const price = parseFloat(priceInput?.value) || 0;
-            const rate = parseFloat(rateInput?.value) || 0;
-            const rateDiscount = parseFloat(rateDiscountInput?.value) || 0;
+            const qty = parseFloat(qtyInput.value) || 0;
+            const price = parseFloat(priceInput.value) || 0;
+            const taxRate = parseFloat(rateInput.value) || 0;
+            const discountRate = parseFloat(rateDiscountInput.value) || 0;
 
-            const principleAmount = qty * price;
+            const baseSubtotal = qty * price;
 
-            const discountAmount = rateDiscount ? (principleAmount * rateDiscount / 100) : 0;
-            const baseAmount = principleAmount - discountAmount;
-            const finalInclusiveAmount = baseAmount + (baseAmount * rate / 100);
-            if (amountInput) amountInput.value = baseAmount.toFixed(2);
-            if (amountDiscountInput) amountDiscountInput.value = discountAmount.toFixed(2);
-            if (inclusiveAmountInput) inclusiveAmountInput.value = finalInclusiveAmount.toFixed(2);
+            const discountAmount = (baseSubtotal * discountRate) / 100;
+            amountDiscountInput.value = discountAmount.toFixed(2);
+
+            const discountedSubtotal = baseSubtotal - discountAmount;
+
+            const taxAmount = (discountedSubtotal * taxRate) / 100;
+            taxAmountInput.value = taxAmount.toFixed(2);
+
+            amountInput.value = discountedSubtotal.toFixed(2);
+
+            const inclusiveAmount = discountedSubtotal + taxAmount;
+            inclusiveAmountInput.value = inclusiveAmount.toFixed(2);
         }
 
 
@@ -253,6 +263,9 @@
                 </td>
                 <td class="h-[40px] p-1">
                     <input type="number" name="rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" />
+                </td>
+                <td class="h-[40px] p-1">
+                    <input type="text" name="tax_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" readonly />
                 </td>
                 <td class="h-[40px] p-1">
                     <input type="number" name="discount_rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" />

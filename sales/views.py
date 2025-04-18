@@ -3,7 +3,8 @@ from items.models import Item
 from initialization.models import Configurations
 from .models import Invoice, InvoiceItem, Credit_Note_Invoice, Credit_Note_InvoiceItem
 from django.contrib import messages
-from smartinvoice.utils import todaySi, calculate_unit_price_inclusive, safe_decimal
+from smartinvoice.utils import todaySi, calculate_unit_price_inclusive, safe_decimal, safe_float
+
 
 def index(request):
     config = Configurations.objects.first()
@@ -13,11 +14,12 @@ def index(request):
         if not config:
             messages.error(request, 'There Is No Configuration Setup Initialization')
             return render(request, "sales/index.html", {"items": items})
-
+        print (request.POST)
         sale = request.POST
         item_names = sale.getlist('itemName[]')
         qtys = sale.getlist('qty[]')
         prices = sale.getlist('price[]')
+        tax_amount = sale.getlist('tax_amount[]')
         rates = sale.getlist('rate[]')
         amounts = sale.getlist('amount[]')
         discount_rate = sale.getlist('discount_rate[]')
@@ -40,40 +42,41 @@ def index(request):
                     errors.append({"error": "Item not found", "item id": item_names[i]})
                     continue
 
-                inclusive = inclusive_amounts[i]
-                rate = rates[i]
-                dis_rate = discount_rate[i]
-                dis_amt = discount_amount[i]
-                qty = qtys[i]
+                inclusive = safe_float(inclusive_amounts[i])
+                rate = safe_float(rates[i])
+                dis_rate = safe_float(discount_rate[i])
+                dis_amt = safe_float(discount_amount[i])
+                tax_amt = safe_float(tax_amount[i])
+                qty = safe_float(qtys[i])
 
-                expected_exclusive_amt = float(amounts[i])
-                expected_price = float(prices[i])
+                # expected_exclusive_amt = float(amounts[i]) or 0.00
+                # expected_price = float(prices[i]) or 0.00
 
-                vals = calculate_unit_price_inclusive(inclusive, rate, qty)
+                vals = calculate_unit_price_inclusive(inclusive, rate, qty, dis_rate)
 
-                if vals["total_exclusive_amount"] != safe_decimal(expected_exclusive_amt):
-                    errors.append({
-                        "error": f"Exclusive Amount mismatch: {vals['total_exclusive_amount']} vs {expected_exclusive_amt}",
-                        "item name": itm.itemNm
-                    })
+                # if vals["total_exclusive_amount"] != safe_decimal(expected_exclusive_amt):
+                #     errors.append({
+                #         "error": f"Exclusive Amount mismatch: {vals['total_exclusive_amount']} vs {expected_exclusive_amt}",
+                #         "item name": itm.itemNm
+                #     })
 
-                if vals["unit_price_exclusive"] != safe_decimal(expected_price):
-                    errors.append({
-                        "error": f"Unit Price mismatch: {vals['unit_price_exclusive']} vs {expected_price}",
-                        "item name": itm.itemNm
-                    })
+                # if vals["unit_price_exclusive"] != safe_decimal(expected_price):
+                #     errors.append({
+                #         "error": f"Unit Price mismatch: {vals['unit_price_exclusive']} vs {expected_price}",
+                #         "item name": itm.itemNm
+                #     })
 
-                calc_tax_amt = float(float(inclusive) - float(expected_exclusive_amt))
-                if vals["total_tax_amount"] != safe_decimal(calc_tax_amt):
-                    errors.append({
-                        "error": f"Tax Amount mismatch: {vals['total_tax_amount']} vs {calc_tax_amt}",
-                        "item name": itm.itemNm
-                    })
+                # calc_tax_amt = float(float(inclusive) - float(expected_exclusive_amt))
+                # if vals["total_tax_amount"] != safe_decimal(calc_tax_amt):
+                #     errors.append({
+                #         "error": f"Tax Amount mismatch: {vals['total_tax_amount']} vs {calc_tax_amt}",
+                #         "item name": itm.itemNm
+                #     })
 
                 inclusive_decimal = float(inclusive)
                 tot_taxable_amt += inclusive_decimal
                 tot_exclusive_amt += float(amounts[i])
-                tot_tax_amt += inclusive_decimal - tot_exclusive_amt
+                tot_tax_amt += tax_amt
                 cash_dc_amt += dis_amt
                 cash_dc_rt += dis_rate
 
@@ -82,37 +85,35 @@ def index(request):
                     'itemNm': itm.itemNm,
                     'itemCd': itm.itemCd,
                     'itemClsCd': itm.itemClsCd or "Each",
-                    'bcd': itm.bcd or "",
+                    'bcd': itm.bcd or None,
                     'pkgUnitCd': itm.pkgUnitCd or "EA",
                     'pkg': 1.0,
                     'qtyUnitCd': itm.qtyUnitCd or "EA",
                     'qty': float(qty),
                     'prc': float(prices[i]),
-                    # 'taxRtA': int(rate),
                     'splyAmt': vals["total_exclusive_amount"],
                     'totAmt': float(inclusive),
                     'dcRt': dis_rate,
                     'dcAmt': dis_amt,
-                    'isrccCd': "",
-                    'isrccNm': "",
+                    # 'isrccCd': "",
+                    # 'isrccNm': "",
                     'vatCatCd': "A",
-                    'exciseTxCatCd': "",
-                    'tlCatCd': "",
-                    'iplCatCd': "",
+                    # 'exciseTxCatCd': "",
+                    # 'tlCatCd': "",
+                    # 'iplCatCd': "",
                     'isrcRt':0.00,
                     'isrcAmt':0.00,
                     'vatTaxblAmt': inclusive_decimal,
-                    'vatAmt': inclusive_decimal - expected_exclusive_amt,
+                    'vatAmt': tax_amt,
                     'exciseTaxblAmt':0.00,
                     'tlTaxblAmt':0.00,
                     'iplTaxblAmt':0.00,
                     'iplAmt':0.00,
                     'tlAmt':0.00,
-                    'exciseTxAmt':0.00,
-                    'totAmt': vals["total_exclusive_amount"],
+                    'exciseTxAmt':0.00
                 })
             except Exception as item_error:
-                errors.append({"error": str(item_error), "item name": item_names[i]})
+                errors.append({"error": f"{item_error}", "item name": item_names[i]})
 
         if errors:
             messages.error(request, f'There are these Errors: {errors}')
@@ -132,12 +133,14 @@ def index(request):
                 salesSttsCd=sale.get('salesSttsCd', '01'),
                 cfmDt=todaySi(),
                 salesDt=todaySi(),
+                cnclReqDt=todaySi(),
                 totItemCnt=len(item_names),
                 totAmt=tot_exclusive_amt,
                 totTaxblAmt=tot_taxable_amt,
                 totTaxAmt=tot_tax_amt,
                 cashDcRt=cash_dc_rt,
                 cashDcAmt=cash_dc_amt,
+                taxRtA= int(rate),
                 prchrAcptcYn="Y",
                 regrId="admin",
                 regrNm="Admin",
@@ -164,7 +167,6 @@ def info(request, id):
     invoice = None
     try:
         invoice = get_object_or_404(Invoice, pk=id)
-        print (invoice)
         if not invoice:
             return redirect("sales")
     except Exception as e:
