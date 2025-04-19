@@ -39,18 +39,18 @@ class InvoiceItem(models.Model):
 
 
 class Invoice(models.Model):
-    tpin = models.CharField(max_length=20)
-    bhfId = models.CharField(max_length=10)
+    tpin = models.CharField(max_length=20,default="",null=True)
+    bhfId = models.CharField(max_length=10,default="",null=True)
     orgInvcNo = models.IntegerField(default=0.00, null=True)
-    cisInvcNo = models.CharField(max_length=20)
-    custTpin = models.CharField(max_length=20)
-    custNm = models.CharField(max_length=255)
-    salesTyCd = models.CharField(max_length=10)
-    rcptTyCd = models.CharField(max_length=10)
-    pmtTyCd = models.CharField(max_length=10)
-    salesSttsCd = models.CharField(max_length=10)
-    cfmDt = models.CharField(max_length=20)
-    salesDt = models.CharField(max_length=20)
+    cisInvcNo = models.CharField(max_length=20,default="",null=True)
+    custTpin = models.CharField(max_length=20,default="",null=True)
+    custNm = models.CharField(max_length=255,default="",null=True)
+    salesTyCd = models.CharField(max_length=10,default="",null=True)
+    rcptTyCd = models.CharField(max_length=10,default="",null=True)
+    pmtTyCd = models.CharField(max_length=10,default="",null=True)
+    salesSttsCd = models.CharField(max_length=10,default="",null=True)
+    cfmDt = models.CharField(max_length=20,default="",null=True)
+    salesDt = models.CharField(max_length=20,default="",null=True)
     stockRlsDt = models.CharField(max_length=20, blank=True, null=True)
     cnclReqDt = models.CharField(max_length=20, blank=True, null=True)
     cnclDt = models.CharField(max_length=20, blank=True, null=True)
@@ -114,14 +114,14 @@ class Invoice(models.Model):
 
     prchrAcptcYn = models.CharField(max_length=1)
     remark = models.TextField(blank=True)
-    regrId = models.CharField(max_length=100)
-    regrNm = models.CharField(max_length=100)
-    modrId = models.CharField(max_length=100)
-    modrNm = models.CharField(max_length=100)
-    saleCtyCd = models.CharField(max_length=10)
+    regrId = models.CharField(max_length=100,default="",null=True)
+    regrNm = models.CharField(max_length=100,default="",null=True)
+    modrId = models.CharField(max_length=100,default="",null=True)
+    modrNm = models.CharField(max_length=100,default="",null=True)
+    saleCtyCd = models.CharField(max_length=10,default="",null=True)
     lpoNumber = models.CharField(max_length=100, blank=True, null=True)
-    currencyTyCd = models.CharField(max_length=10)
-    exchangeRt = models.CharField(max_length=10)
+    currencyTyCd = models.CharField(max_length=10,default="",null=True)
+    exchangeRt = models.CharField(max_length=10,default="",null=True)
     destnCountryCd = models.CharField(max_length=10, blank=True, null=True)
     dbtRsnCd = models.CharField(max_length=100, blank=True, null=True)
     invcAdjustReason = models.CharField(max_length=255, blank=True, null=True)
@@ -130,20 +130,51 @@ class Invoice(models.Model):
     def __str__(self):
         return f"Invoice #{self.orgInvcNo} - {self.custNm}"
 
+class Credit_Note_InvoiceItem(models.Model):
+    itemSeq = models.IntegerField(default=0.00, null=True)
+    itemCd = models.CharField(max_length=50,default="",null=True)
+    itemClsCd = models.CharField(max_length=50,default="",null=True)
+    itemNm = models.CharField(max_length=255,default="",null=True)
+    bcd = models.CharField(max_length=50, null=True, blank=True)
+    pkgUnitCd = models.CharField(max_length=50,default="",null=True)
+    pkg = models.FloatField(default=0.00, null=True)
+    qtyUnitCd = models.CharField(max_length=50,default="",null=True)
+    qty = models.FloatField(default=0.00, null=True)
+    prc = models.FloatField(default=0.00, null=True)
+    splyAmt = models.FloatField(default=0.00, null=True)
+    dcRt = models.FloatField(default=0.00, null=True)
+    dcAmt = models.FloatField(default=0.00, null=True)
+    isrccCd = models.CharField(max_length=50, null=True, blank=True)
+    isrccNm = models.CharField(max_length=255, null=True, blank=True)
+    isrcRt = models.FloatField(default=0.00, null=True)
+    isrcAmt = models.FloatField(default=0.00, null=True)
+    vatCatCd = models.CharField(max_length=10, null=True, blank=True)
+    exciseTxCatCd = models.CharField(max_length=10, null=True, blank=True)
+    vatTaxblAmt = models.FloatField(default=0.00, null=True)
+    exciseTaxblAmt = models.FloatField(default=0.00, null=True)
+    vatAmt = models.FloatField(default=0.00, null=True)
+    exciseTxAmt = models.FloatField(default=0.00, null=True)
+    totAmt = models.FloatField(default=0.00, null=True)
+    tlTaxblAmt = models.FloatField(default=0.00, null=True)
+    iplTaxblAmt = models.FloatField(default=0.00, null=True)
+    iplAmt = models.FloatField(default=0.00, null=True)
+    tlAmt = models.FloatField(default=0.00, null=True)
+
 class Credit_Note_Invoice(models.Model):
-    tpin = models.CharField(max_length=20)
-    bhfId = models.CharField(max_length=10)
+    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='items', null=True)
+    tpin = models.CharField(max_length=20,default="",null=True)
+    bhfId = models.CharField(max_length=10,default="",null=True)
     orgSdcId = models.CharField(max_length=10, null=True, blank=True)
-    orgInvcNo = models.IntegerField(null=True, blank=True)
-    cisInvcNo = models.CharField(max_length=50)
-    custTpin = models.CharField(max_length=20)
-    custNm = models.CharField(max_length=255)
-    salesTyCd = models.CharField(max_length=5)
-    rcptTyCd = models.CharField(max_length=5)
-    pmtTyCd = models.CharField(max_length=5)
-    salesSttsCd = models.CharField(max_length=5)
-    cfmDt = models.CharField(max_length=20)
-    salesDt = models.CharField(max_length=20)
+    orgInvcNo = models.CharField(max_length=255,default="",null=True, blank=True)
+    cisInvcNo = models.CharField(max_length=50,default="",null=True)
+    custTpin = models.CharField(max_length=20,default="",null=True)
+    custNm = models.CharField(max_length=255,default="",null=True)
+    salesTyCd = models.CharField(max_length=5,default="",null=True)
+    rcptTyCd = models.CharField(max_length=5,default="",null=True)
+    pmtTyCd = models.CharField(max_length=5,default="",null=True)
+    salesSttsCd = models.CharField(max_length=5,default="",null=True)
+    cfmDt = models.CharField(max_length=20,default="",null=True)
+    salesDt = models.CharField(max_length=20,default="",null=True)
     stockRlsDt = models.CharField(max_length=20, null=True, blank=True)
     cnclReqDt = models.CharField(max_length=20, null=True, blank=True)
     cnclDt = models.CharField(max_length=20, null=True, blank=True)
@@ -202,61 +233,65 @@ class Credit_Note_Invoice(models.Model):
     totAmt = models.FloatField(default=0.00, null=True)
     prchrAcptcYn = models.CharField(max_length=1)
     remark = models.TextField(null=True, blank=True)
-    regrId = models.CharField(max_length=50)
-    regrNm = models.CharField(max_length=100)
-    modrId = models.CharField(max_length=50)
-    modrNm = models.CharField(max_length=100)
-    saleCtyCd = models.CharField(max_length=10)
+    regrId = models.CharField(max_length=50,default="",null=True)
+    regrNm = models.CharField(max_length=100,default="",null=True)
+    modrId = models.CharField(max_length=50,default="",null=True)
+    modrNm = models.CharField(max_length=100,default="",null=True)
+    saleCtyCd = models.CharField(max_length=10,default="",null=True)
     lpoNumber = models.CharField(max_length=50, null=True, blank=True)
     currencyTyCd = models.CharField(max_length=10)
     exchangeRt = models.FloatField(default=0.00, null=True)
     destnCountryCd = models.CharField(max_length=10, null=True, blank=True)
     dbtRsnCd = models.CharField(max_length=10, null=True, blank=True)
     invcAdjust = models.CharField(max_length=100, null=True, blank=True)
+
+    itemList = models.ManyToManyField(Credit_Note_InvoiceItem)
     def __str__(self):
         return f"Invoice #{self.orgInvcNo} - {self.custNm}"
 
-class Credit_Note_InvoiceItem(models.Model):
-    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE, related_name='items')
+class Debit_Note_InvoiceItem(models.Model):
     itemSeq = models.IntegerField(default=0.00, null=True)
     itemCd = models.CharField(max_length=50)
     itemClsCd = models.CharField(max_length=50)
-    itemNm = models.CharField(max_length=255)
-    bcd = models.CharField(max_length=50, null=True, blank=True)
-    pkgUnitCd = models.CharField(max_length=50)
+    itemNm = models.CharField(max_length=100)
+    bcd = models.CharField(max_length=50, blank=True)
+    pkgUnitCd = models.CharField(max_length=10)
     pkg = models.FloatField(default=0.00, null=True)
-    qtyUnitCd = models.CharField(max_length=50)
+    qtyUnitCd = models.CharField(max_length=10)
     qty = models.FloatField(default=0.00, null=True)
     prc = models.FloatField(default=0.00, null=True)
     splyAmt = models.FloatField(default=0.00, null=True)
     dcRt = models.FloatField(default=0.00, null=True)
     dcAmt = models.FloatField(default=0.00, null=True)
-    isrccCd = models.CharField(max_length=50, null=True, blank=True)
-    isrccNm = models.CharField(max_length=255, null=True, blank=True)
+    isrccCd = models.CharField(max_length=10, blank=True)
+    isrccNm = models.CharField(max_length=100, blank=True)
     isrcRt = models.FloatField(default=0.00, null=True)
     isrcAmt = models.FloatField(default=0.00, null=True)
-    vatCatCd = models.CharField(max_length=10, null=True, blank=True)
-    exciseTxCatCd = models.CharField(max_length=10, null=True, blank=True)
+    vatCatCd = models.CharField(max_length=5)
+    exciseTxCatCd = models.CharField(max_length=10, blank=True, null=True)
     vatTaxblAmt = models.FloatField(default=0.00, null=True)
     exciseTaxblAmt = models.FloatField(default=0.00, null=True)
     vatAmt = models.FloatField(default=0.00, null=True)
     exciseTxAmt = models.FloatField(default=0.00, null=True)
     totAmt = models.FloatField(default=0.00, null=True)
 
+    def __str__(self):
+        return f"{self.itemNm} ({self.itemCd})"
 
 class Debit_Note_Invoice(models.Model):
-    tpin = models.CharField(max_length=20)
+    invoice = models.ForeignKey(Invoice, related_name='debit_itemList', on_delete=models.CASCADE)
+    tpin = models.CharField(max_length=20,default="",null=True)
     bhfId = models.CharField(max_length=10)
     orgInvcNo = models.IntegerField(default=0.00, null=True)
-    cisInvcNo = models.CharField(max_length=20)
-    custTpin = models.CharField(max_length=20)
+    cisInvcNo = models.CharField(max_length=20,default="",null=True)
+    custTpin = models.CharField(max_length=20,default="",null=True)
     custNm = models.CharField(max_length=100)
-    salesTyCd = models.CharField(max_length=5)
-    rcptTyCd = models.CharField(max_length=5)
-    pmtTyCd = models.CharField(max_length=5)
-    salesSttsCd = models.CharField(max_length=5)
-    cfmDt = models.CharField(max_length=20)
-    salesDt = models.CharField(max_length=20)
+    salesTyCd = models.CharField(max_length=5,default="",null=True)
+    rcptTyCd = models.CharField(max_length=5,default="",null=True)
+    pmtTyCd = models.CharField(max_length=5,default="",null=True)
+    salesSttsCd = models.CharField(max_length=5,default="",null=True)
+    cfmDt = models.CharField(max_length=20,default="",null=True)
+    salesDt = models.CharField(max_length=20,default="",null=True)
     stockRlsDt = models.CharField(max_length=20, null=True, blank=True)
     cnclReqDt = models.CharField(max_length=20, null=True, blank=True)
     cnclDt = models.CharField(max_length=20, null=True, blank=True)
@@ -336,14 +371,13 @@ class Debit_Note_Invoice(models.Model):
     destnCountryCd = models.CharField(max_length=10, blank=True)
     dbtRsnCd = models.CharField(max_length=10)
     invcAdjustReason = models.TextField(default=0.00, null=True)
+    itemList = models.ManyToManyField(Debit_Note_InvoiceItem)
 
     def __str__(self):
-        return f"Invoice {self.cisInvcNo}"
+        return f"Debit Note {self.cisInvcNo}"
 
 
-class Debit_Note_InvoiceItem(models.Model):
-    invoice = models.ForeignKey(Invoice, related_name='debit_itemList', on_delete=models.CASCADE)
-
+class LPO_InvoiceItem(models.Model):
     itemSeq = models.IntegerField(default=0.00, null=True)
     itemCd = models.CharField(max_length=50)
     itemClsCd = models.CharField(max_length=50)
@@ -357,24 +391,17 @@ class Debit_Note_InvoiceItem(models.Model):
     splyAmt = models.FloatField(default=0.00, null=True)
     dcRt = models.FloatField(default=0.00, null=True)
     dcAmt = models.FloatField(default=0.00, null=True)
-    isrccCd = models.CharField(max_length=10, blank=True)
-    isrccNm = models.CharField(max_length=100, blank=True)
-    isrcRt = models.FloatField(default=0.00, null=True)
-    isrcAmt = models.FloatField(default=0.00, null=True)
     vatCatCd = models.CharField(max_length=5)
-    exciseTxCatCd = models.CharField(max_length=10, blank=True, null=True)
     vatTaxblAmt = models.FloatField(default=0.00, null=True)
-    exciseTaxblAmt = models.FloatField(default=0.00, null=True)
     vatAmt = models.FloatField(default=0.00, null=True)
-    exciseTxAmt = models.FloatField(default=0.00, null=True)
     totAmt = models.FloatField(default=0.00, null=True)
 
     def __str__(self):
         return f"{self.itemNm} ({self.itemCd})"
 
 
-
 class LPO_Invoice(models.Model):
+    invoice = models.ForeignKey(Invoice, related_name='lpo_itemList', on_delete=models.CASCADE)
     tpin = models.CharField(max_length=20)
     bhfId = models.CharField(max_length=10)
     orgInvcNo = models.IntegerField(default=0.00, null=True)
@@ -471,32 +498,6 @@ class LPO_Invoice(models.Model):
 
     def __str__(self):
         return f"Invoice {self.cisInvcNo}"
-
-
-class LPO_InvoiceItem(models.Model):
-    invoice = models.ForeignKey(Invoice, related_name='lpo_itemList', on_delete=models.CASCADE)
-
-    itemSeq = models.IntegerField(default=0.00, null=True)
-    itemCd = models.CharField(max_length=50)
-    itemClsCd = models.CharField(max_length=50)
-    itemNm = models.CharField(max_length=100)
-    bcd = models.CharField(max_length=50, blank=True)
-    pkgUnitCd = models.CharField(max_length=10)
-    pkg = models.FloatField(default=0.00, null=True)
-    qtyUnitCd = models.CharField(max_length=10)
-    qty = models.FloatField(default=0.00, null=True)
-    prc = models.FloatField(default=0.00, null=True)
-    splyAmt = models.FloatField(default=0.00, null=True)
-    dcRt = models.FloatField(default=0.00, null=True)
-    dcAmt = models.FloatField(default=0.00, null=True)
-    vatCatCd = models.CharField(max_length=5)
-    vatTaxblAmt = models.FloatField(default=0.00, null=True)
-    vatAmt = models.FloatField(default=0.00, null=True)
-    totAmt = models.FloatField(default=0.00, null=True)
-
-    def __str__(self):
-        return f"{self.itemNm} ({self.itemCd})"
-
 
 class Export_Invoice(models.Model):
     tpin = models.CharField(max_length=20)

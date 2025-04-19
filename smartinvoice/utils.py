@@ -1,7 +1,8 @@
+from decimal import Decimal, ROUND_HALF_UP, localcontext, InvalidOperation
 from datetime import datetime
 import requests
 from requests.exceptions import RequestException
-from decimal import Decimal, getcontext, ROUND_HALF_UP,InvalidOperation
+
 
 Sales_Receipt_Type = {
     "Sale": "S",
@@ -86,16 +87,16 @@ def todaySi ():
 
 def send_api_request(method, url, headers=None, data=None, json=None, params=None, timeout=10):
     """
-    Sends an HTTP request to an external API.
+        Sends an HTTP request to an external API.
 
-    :param method: HTTP method (e.g., 'GET', 'POST', 'PUT', 'DELETE')
-    :param url: API endpoint
-    :param headers: Dictionary of headers
-    :param data: Form data (for POST, PUT, etc.)
-    :param json: JSON body (for POST, PUT, etc.)
-    :param params: URL query parameters
-    :param timeout: Timeout in seconds
-    :return: Response object or None on failure
+        :param method: HTTP method (e.g., 'GET', 'POST', 'PUT', 'DELETE')
+        :param url: API endpoint
+        :param headers: Dictionary of headers
+        :param data: Form data (for POST, PUT, etc.)
+        :param json: JSON body (for POST, PUT, etc.)
+        :param params: URL query parameters
+        :param timeout: Timeout in seconds
+        :return: Response object or None on failure
     """
     try:
         response = requests.request(
@@ -113,77 +114,56 @@ def send_api_request(method, url, headers=None, data=None, json=None, params=Non
         print(f"API request failed: {e}")
         return None
 
-# def calculate_unit_price_inclusive(total_amount, rate_percent, quantity, decimal_places=2):
-#     """
-#     Calculates the exclusive unit price from an inclusive total amount.
-#     Args:
-#         total_amount (float or str): The total amount including the percentage rate.
-#         rate_percent (float or str): The percentage rate (e.g. 16 for 16%).
-#         quantity (int): Number of units/items.
-#         decimal_places (int): How many decimal places to round to.
-#     Returns:
-#         Decimal: Unit price exclusive of the rate.
-#     """
-#     getcontext().prec = decimal_places + 5
-#     getcontext().rounding = ROUND_HALF_UP
-
-#     total_amount = Decimal(str(total_amount))
-#     rate_percent = Decimal(str(rate_percent))
-#     quantity = Decimal(str(quantity))
-
-#     if quantity == 0:
-#         raise ValueError("Quantity cannot be zero.")
-
-#     divisor = Decimal('1') + (rate_percent / Decimal('100'))
-#     exclusive_total = total_amount / divisor
-#     unit_price = exclusive_total / quantity
-
-#     return unit_price.quantize(Decimal('1.' + '0' * decimal_places))
 
 
-from decimal import Decimal, getcontext, ROUND_HALF_UP
+def safe_decimal_(value, default='0'):
+    """Convert value to Decimal safely."""
+    try:
+        return Decimal(str(value))
+    except (InvalidOperation, ValueError):
+        return Decimal(default)
 
 def calculate_unit_price_inclusive(total_inclusive_amount, rate_percent, quantity, dic_rate=0, decimal_places=2):
     """
-    Calculates:
-      1. Unit price exclusive of the tax rate
-      2. Total exclusive amount (excluding tax)
-      3. Tax amount
-
-    Args:
-        total_inclusive_amount (float or str): Total amount including the tax.
-        rate_percent (float or str): Tax rate percentage (e.g. 16 for 16%).
-        quantity (int): Number of units/items.
-        decimal_places (int): Decimal places for rounding (default 2).
-
-    Returns:
-        dict: {
-            'unit_price_exclusive': Decimal,
-            'total_exclusive_amount': Decimal,
-            'total_tax_amount': Decimal
-        }
+    Safe and large-number friendly tax-exclusive price calculator.
     """
-    getcontext().prec = decimal_places + 5
-    getcontext().rounding = ROUND_HALF_UP
-
-    total_inclusive = Decimal(str(total_inclusive_amount))
-    rate = Decimal(str(rate_percent))
-    quantity = Decimal(str(quantity))
-
-    if quantity <= 0:
+    # Early quantity validation
+    if quantity in [0, '0', None]:
         raise ValueError("Quantity must be greater than zero.")
 
-    divisor = Decimal('1') + (rate / Decimal('100'))
-    total_exclusive = (total_inclusive / divisor).quantize(Decimal('1.' + '0' * decimal_places))
-    tax_amount = (total_inclusive - total_exclusive).quantize(Decimal('1.' + '0' * decimal_places))
-    unit_price_exclusive = (total_exclusive / quantity).quantize(Decimal('1.' + '0' * decimal_places))
+    try:
+        total_inclusive = safe_decimal(total_inclusive_amount)
+        rate = safe_decimal(rate_percent)
+        quantity = safe_decimal(quantity)
 
-    return {
-        'unit_price_exclusive': unit_price_exclusive,
-        'total_exclusive_amount': total_exclusive,
-        'total_tax_amount': tax_amount
-    }
+        if quantity <= 0:
+            raise ValueError("Quantity must be greater than zero.")
 
+        with localcontext() as ctx:
+            ctx.prec = 30  # High precision for large numbers
+            ctx.rounding = ROUND_HALF_UP
+
+            divisor = Decimal('1') + (rate / Decimal('100'))
+
+            total_exclusive = (total_inclusive / divisor)
+            tax_amount = total_inclusive - total_exclusive
+            unit_price_exclusive = total_exclusive / quantity
+
+            # Safe quantization using exponential format to avoid InvalidOperation
+            quant = Decimal('1e-{0}'.format(decimal_places))
+
+            total_exclusive = total_exclusive.quantize(quant)
+            tax_amount = tax_amount.quantize(quant)
+            unit_price_exclusive = unit_price_exclusive.quantize(quant)
+
+        return {
+            'unit_price_exclusive': unit_price_exclusive,
+            'total_exclusive_amount': total_exclusive,
+            'total_tax_amount': tax_amount
+        }
+
+    except (InvalidOperation, ZeroDivisionError) as e:
+        raise ValueError(f"Calculation failed: {e}")
 
 def safe_decimal(value, default='0.00', decimal_places=2):
     try:

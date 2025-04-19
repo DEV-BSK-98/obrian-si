@@ -30,14 +30,14 @@
                     <tbody class="text-[13px]">
                         {% for purchase in purchases %}
                             <tr class="border-b border-slate-200 hover:bg-slate-50/30">
-                                <td class="p-3 rounded-l-md">{{ forloop.counter }}</td>
-                                <td class="p-3">{{ purchase.spplrTpin }}</td>
-                                <td class="p-3">{{ purchase.spplrNm }}</td>
-                                <td class="p-3">{{ purchase.spplrInvcNo }}</td>
-                                <td class="p-3">{{ purchase.totTaxblAmt }}</td>
-                                <td class="p-3">{{ purchase.totTaxAmt }}</td>
+                                <td class="p-3 text-center rounded-l-md">{{ forloop.counter }}</td>
+                                <td class="p-3 text-center">{{ purchase.spplrTpin }}</td>
+                                <td class="p-3 text-center">{{ purchase.spplrNm }}</td>
+                                <td class="p-3 text-center">{{ purchase.spplrInvcNo }}</td>
+                                <td class="p-3 text-center">{{ purchase.totTaxblAmt }}</td>
+                                <td class="p-3 text-center">{{ purchase.totTaxAmt }}</td>
                                 <td class="p-3 text-center rounded-r-md">
-                                    <a href="{% url 'purchase-info' purchase.id %}" class="text-blue-600 hover:underline">View</a>
+                                    <a href="{% url 'purchase-info' purchase.id %}" class="text-emerald-600 hover:underline">View</a>
                                 </td>
                             </tr>
                         {% empty %}

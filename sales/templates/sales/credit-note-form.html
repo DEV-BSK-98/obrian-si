@@ -24,10 +24,10 @@
                 <div class="h-full w-full grid grid-cols-4 gap-3 gap-y-5">
                     <!-- T-Pin -->
                     <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1"><label for="tpin" class="text-[12px] font-semibold py-2">Invoice</label></p>
+                        <p class="pb-1"><label for="sale" class="text-[12px] font-semibold py-2">Invoice</label></p>
                         <div class="h-[50%] w-full">
                             <select class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" name="sale">
-                                <option>Select Invoice</option>
+                                <option value="0">Select Invoice</option>
                                 {% if invoices %}
                                     {% for invoice in invoices %}
                                         <option value="{{ invoice.id }}">{{ invoice.cisInvcNo }}</option>

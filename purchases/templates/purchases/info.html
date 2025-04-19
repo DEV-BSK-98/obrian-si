@@ -8,51 +8,192 @@
             <div class="h-[50px] w-full border-b border-slate-600 pb-3">
                 <div class="h-full w-full flex ap-3 justify-between items-center">
                     <div class="title h-full w-full flex items-center">
-                        <span class="font-bold text-2xl uppercase">Purchases</span>
+                        <span class="font-bold text-2xl uppercase">Purchase - {{ purchase.cisInvcNo }}</span>
                     </div>
                     <div class="flex w-max gap-3 h-full items-center">
-                        <button class="cursor-pointer rounded-lg bg-emerald-700 py-2 px-4 opacity-75 hover:opacity-100 whitespace-nowrap transition-all duration-300 ease-in-out">Update Purchase</button>
+                        {% comment %} <button class="cursor-pointer rounded-lg bg-emerald-700 py-2 px-4 opacity-75 hover:opacity-100transition-all duration-300 ease-in-out">Update Sale</button> {% endcomment %}
+                        <a href="{% url 'debit-note-new' %}" class="cursor-pointer rounded-lg bg-purple-700 py-2 px-4 opacity-75 hover:opacity-100 whitespace-nowrap transition-all duration-300 ease-in-out">Debit Note</a>
                     </div>
                 </div>
             </div>
             <div class="min-h-[90px] mt-5 w-full">
                 <div class="h-full w-full grid grid-cols-4 gap-3 gap-y-5">
+                    <!-- T-Pin -->
                     <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1">
-                            <label for="branch_name" class="text-[12px] font-semibold py-2">Branch Name</label>
-                        </p>
+                        <p class="pb-1"><label for="tpin" class="text-[12px] font-semibold py-2">T-Pin</label></p>
                         <div class="h-[50%] w-full">
-                            <input
-                                type="text"
-                                placeholder="Branch Name"
-                                name="branch_name"
-                                id="branch_name"
-                                value="{{branch.branch_name}}"
-                                class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"
-                            />
+                            <input type="text" value="{{purchase.tpin}}" name="tpin" id="tpin" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="T-Pin" readonly />
                         </div>
-                        <p class="text-[10px]">
-                            Branch Name
-                        </p>
+                        <p class="text-[10px]">T-Pin text</p>
                     </div>
 
+                    <!-- BHF ID -->
                     <div class="input-field h-[80px] space-y-1 col-span-1">
-                        <p class="pb-1">
-                            <label for="bhfId" class="text-[12px] font-semibold py-2">Branch ID</label>
-                        </p>
+                        <p class="pb-1"><label for="bhfId" class="text-[12px] font-semibold py-2">BHF ID</label></p>
                         <div class="h-[50%] w-full">
-                            <input
-                                type="text"
-                                placeholder="Branch ID"
-                                name="bhfId"
-                                id="bhfId"
-                                value="{{branch.bhfId}}"
-                                class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full"
-                            />
+                            <input type="text" value="{{purchase.bhfId}}" name="bhfId" id="bhfId" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="BHF ID" readonly />
                         </div>
-                        <p class="text-[10px]">
-                            Branch Id
-                        </p>
+                        <p class="text-[10px]">BHF ID</p>
+                    </div>
+
+                    <!-- Original Invoice text -->
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1"><label for="spplrInvcNo" class="text-[12px] font-semibold py-2">Original Invoice text</label></p>
+                        <div class="h-[50%] w-full">
+                            <input type="text" value="{{purchase.spplrInvcNo}}" name="spplrInvcNo" id="spplrInvcNo" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Original Invoice text" readonly />
+                        </div>
+                        <p class="text-[10px]">Original Invoice text</p>
+                    </div>
+
+                    <!-- CIS Invoice text -->
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1"><label for="cisInvcNo" class="text-[12px] font-semibold py-2">CIS Invoice text</label></p>
+                        <div class="h-[50%] w-full">
+                            <input type="text" value="{{purchase.cisInvcNo}}" name="cisInvcNo" id="cisInvcNo" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="CIS Invoice text" readonly />
+                        </div>
+                        <p class="text-[10px]">CIS Invoice text</p>
+                    </div>
+
+                    <!-- Customer T-Pin -->
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1"><label for="spplrTpin" class="text-[12px] font-semibold py-2">Customer T-Pin</label></p>
+                        <div class="h-[50%] w-full">
+                            <input type="text" value="{{purchase.spplrTpin}}" name="spplrTpin" id="spplrTpin" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Customer T-Pin" readonly />
+                        </div>
+                        <p class="text-[10px]">Supplier T-Pin</p>
+                    </div>
+
+                    <!-- Supplier Name -->
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1"><label for="spplrNm" class="text-[12px] font-semibold py-2">Supplier Name</label></p>
+                        <div class="h-[50%] w-full">
+                            <input type="text" value="{{purchase.spplrNm}}" name="spplrNm" id="spplrNm" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Supplier Name" readonly />
+                        </div>
+                        <p class="text-[10px]">Supplier Name</p>
+                    </div>
+                    
+                    <!-- BHF ID -->
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1"><label for="spplrBhfId" class="text-[12px] font-semibold py-2">BHF ID</label></p>
+                        <div class="h-[50%] w-full">
+                            <input type="text" value="{{purchase.spplrBhfId}}" name="spplrBhfId" id="spplrBhfId" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="BHF ID" readonly />
+                        </div>
+                        <p class="text-[10px]">BHF ID</p>
+                    </div>
+
+                    <!-- Sales Type Code -->
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1"><label for="salesTyCd" class="text-[12px] font-semibold py-2">Sales Type Code</label></p>
+                        <div class="h-[50%] w-full">
+                            <input type="text"  value="{{purchase.salesTyCd}}" name="salesTyCd" id="salesTyCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Sales Type Code" readonly />
+                        </div>
+                        <p class="text-[10px]">Sales Type Code</p>
+                    </div>
+
+                    <!-- Receipt Type Code -->
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1"><label for="rcptTyCd" class="text-[12px] font-semibold py-2">Receipt Type Code</label></p>
+                        <div class="h-[50%] w-full">
+                            <input type="text" name="rcptTyCd" value="{{purchase.rcptTyCd}}" id="rcptTyCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Receipt Type Code" readonly />
+                        </div>
+                        <p class="text-[10px]">Receipt Type Code</p>
+                    </div>
+
+                    <!-- Payment Type Code -->
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1"><label for="pmtTyCd" class="text-[12px] font-semibold py-2">Payment Type Code</label></p>
+                        <div class="h-[50%] w-full">
+                            <input type="text" value="{{purchase.pmtTyCd}}" name="pmtTyCd" id="pmtTyCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Payment Type Code" readonly />
+                        </div>
+                        <p class="text-[10px]">Payment Type Code</p>
+                    </div>
+
+                    <!-- Sales Status Code -->
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1"><label for="salesSttsCd" class="text-[12px] font-semibold py-2">Sales Status Code</label></p>
+                        <div class="h-[50%] w-full">
+                            <input type="text" value="{{purchase.salesSttsCd}}" name="salesSttsCd" id="salesSttsCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Sales Status Code" readonly />
+                        </div>
+                        <p class="text-[10px]">Sales Status Code</p>
+                    </div>
+
+                    <!-- Confirmation Date -->
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1"><label for="cfmDt" class="text-[12px] font-semibold py-2">Confirmation Date</label></p>
+                        <div class="h-[50%] w-full">
+                            <input type="test" value="{{purchase.cfmDt}}" name="cfmDt" id="cfmDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" readonly />
+                        </div>
+                        <p class="text-[10px]">Confirmation Date</p>
+                    </div>
+
+                    <!-- Sales Date -->
+                    <div class="input-field h-[80px] space-y-1 col-span-1">
+                        <p class="pb-1"><label for="salesDt" class="text-[12px] font-semibold py-2">Sales Date</label></p>
+                        <div class="h-[50%] w-full">
+                            <input type="text" name="salesDt" value="{{purchase.salesDt}}" id="salesDt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" readonly />
+                        </div>
+                        <p class="text-[10px]">Sales Date</p>
+                    </div>
+                    <div class="col-span-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <h2 class="text-sm font-semibold">Line Items</h2>
+                        </div>
+                        <div class="w-full overflow-x-auto py-3">
+                            <table class="w-full text-sm rounded-md">
+                                <thead class="rounded-md text-700">
+                                    <tr class="bg-emerald-500">
+                                        <th class="p-2 min-w-[250px] rounded-l-md">Item Name</th>
+                                        <th class="p-2 min-w-[250px]">Qty</th>
+                                        <th class="p-2 min-w-[250px]">Price</th>
+                                        <th class="p-2 min-w-[250px]">Tax Type's</th>
+                                        <th class="p-2 min-w-[250px]">% Tax Rate</th>
+                                        <th class="p-2 min-w-[250px]">Tax Amount</th>
+                                        <th class="p-2 min-w-[250px]">% Discount Rate</th>
+                                        <th class="p-2 min-w-[250px]">Discount Amount</th>
+                                        <th class="p-2 min-w-[250px]">Exclusive Amount</th>
+                                        <th class="p-2 min-w-[250px]">Inclusive Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="itemTable">
+                                    {% if purchase.itemList %}
+                                        {% for item in purchase.itemList.all %}
+                                            <tr >
+                                                <td class="h-[40px] p-1 rounded-l-md">
+                                                    <input value="{{item.itemNm}}" type="text" name="itemName[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Price" readonly />
+                                                </td>
+                                                <td class="h-[40px] p-1">
+                                                    <input type="text" value="{{item.qty}}" name="qty[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Qty" readonly />
+                                                </td>
+                                                <td class="h-[40px] p-1">
+                                                    <input type="text" value="{{item.prc}}" name="price[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Price" readonly />
+                                                </td>
+                                                <td class="h-[40px] p-1">
+                                                    <input type="text" value="{{item.tax_types}}" name="tax_types[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Separated by Commas" readonly />
+                                                </td>
+                                                <td class="h-[40px] p-1">
+                                                    <input type="text" value="{{purchase.taxRtA}}" name="rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" readonly />
+                                                </td>
+                                                <td class="h-[40px] p-1">
+                                                    <input type="text" value="{{purchase.vatAmt}}" name="tax_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" readonly />
+                                                </td>
+                                                <td class="h-[40px] p-1">
+                                                    <input type="text" value="{{item.dcRt}}" name="discount_rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" readonly />
+                                                </td>
+                                                <td class="h-[40px] p-1">
+                                                    <input type="text" value="{{item.dcAmt}}" name="discount_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
+                                                </td>
+                                                <td class="h-[40px] p-1">
+                                                    <input type="text" value="{{item.totAmt}}" name="amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
+                                                </td>
+                                                <td class="h-[40px] p-1">
+                                                    <input type="text" value="{{item.totAmt}}" name="inclusive_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from .models import Item
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def index(request):
     if request.method == 'POST':
         try:
@@ -22,6 +24,7 @@ def index(request):
             print(f"Error saving item: {str(e)}")
     return render (request, "items/index.html")
 
+@login_required
 def info (request, id):
     item = None
     try:
@@ -32,6 +35,7 @@ def info (request, id):
         print (f"{e}")
     return render (request, "items/info.html", {"item": item})
 
+@login_required
 def list (request):
     items = []
     objs = Item.objects.all ().order_by ('-id')

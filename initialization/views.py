@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import Configurations
+from django.contrib.auth.decorators import login_required
+
+@login_required
 def index (request):
     check = Configurations.objects.all ()
     print (check)
@@ -25,6 +28,7 @@ def index (request):
             print(f"Error saving data: {str(e)}")
     return render (request, "initialization/index.html")
 
+@login_required
 def info (request):
     config = Configurations.objects.all ().first ()
     if not config:

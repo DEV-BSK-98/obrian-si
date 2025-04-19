@@ -16,11 +16,16 @@
                 </div>
             </div>
             <div class="min-h-[90px] mt-5 w-full">
+                {% if messages %}
+                    {% for message in messages %}
+                        <p class="text-red-500">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
                 <div class="h-full w-full grid grid-cols-4 gap-3 gap-y-5">
                     <div class="input-field h-[80px] space-y-1 col-span-1">
                     <p class="pb-1"><label for="spplrTpin" class="text-[12px] font-semibold py-2">Supplier TPIN</label></p>
                     <div class="h-[50%] w-full">
-                        <input type="text" name="spplrTpin" id="spplrTpin" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                        <input type="text" name="spplrTpin" id="spplrTpin" placeholder="Supplier T-Pin" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
                     </div>
                     <p class="text-[10px]">Enter supplier TPIN</p>
                 </div>
@@ -28,7 +33,7 @@
                 <div class="input-field h-[80px] space-y-1 col-span-1">
                     <p class="pb-1"><label for="spplrNm" class="text-[12px] font-semibold py-2">Supplier Name</label></p>
                     <div class="h-[50%] w-full">
-                        <input type="text" name="spplrNm" id="spplrNm" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                        <input type="text" name="spplrNm" id="spplrNm" placeholder="Supplier Name" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
                     </div>
                     <p class="text-[10px]">Enter supplier name</p>
                 </div>
@@ -36,9 +41,74 @@
                 <div class="input-field h-[80px] space-y-1 col-span-1">
                     <p class="pb-1"><label for="spplrInvcNo" class="text-[12px] font-semibold py-2">Invoice No.</label></p>
                     <div class="h-[50%] w-full">
-                        <input type="number" name="spplrInvcNo" id="spplrInvcNo" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
+                        <input type="text" name="spplrInvcNo" placeholder="Invoice No" id="spplrInvcNo" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" />
                     </div>
                     <p class="text-[10px]">Invoice number</p>
+                </div>
+                <!-- CIS Invoice Number -->
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="cisInvcNo" class="text-[12px] font-semibold py-2">CIS Invoice Number</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" name="cisInvcNo" id="cisInvcNo" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="CIS Invoice Number" />
+                    </div>
+                    <p class="text-[10px]">CIS Invoice Number</p>
+                </div>
+
+                <!-- Sales Status Code -->
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="salesSttsCd" class="text-[12px] font-semibold py-2">Sales Status Code</label></p>
+                    <div class="h-[50%] w-full">
+                        <select  name="salesSttsCd" id="salesSttsCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full">
+                            <option>Select Sale Status</option>
+                            <option value="02">Approved</option>
+                            <option value="05">Refunded</option>
+                            <option value="06">Transferred</option>
+                            <option value="04">Rejected</option>
+                        </select>
+                    </div>
+                    <p class="text-[10px]">Sales Status Code</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="pmtTyCd" class="text-[12px] font-semibold py-2">Payment Type Code</label></p>
+                    <div class="h-[50%] w-full">
+                        <select  name="pmtTyCd" id="pmtTyCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full">
+                            <option>Select Payment Method</option>
+                            <option value="01">Cash</option>
+                            <option value="02">Credit</option>
+                            <option value="03">Cash/Credit</option>
+                            <option value="04">Bank Check</option>
+                            <option value="05">Debit & Credit Card</option>
+                            <option value="06">Mobile Money</option>
+                            <option value="07">Bank Transfer</option>
+                            <option value="08">Other</option>
+                        </select>
+                    </div>
+                    <p class="text-[10px]">Payment Type Code</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="currencyTyCd" class="text-[12px] font-semibold py-2">Transaction Currency</label></p>
+                    <div class="h-[50%] w-full">
+                        <select  name="currencyTyCd" id="currencyTyCd" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full">
+                            <option>Select Transaction Currency </option>
+                            <option value="ZMW">Zambian kwacha</option>
+                            <option value="USD">United States Dollar</option>
+                            <option value="ZAR">South African Rand</option>
+                            <option value="GBP">Pound Sterling</option>
+                            <option value="CNY">Chinese Yuan</option>
+                            <option value="Euro">Euro</option>
+                        </select>
+                    </div>
+                    <p class="text-[10px]">Currency</p>
+                </div>
+
+                <div class="input-field h-[80px] space-y-1 col-span-1">
+                    <p class="pb-1"><label for="exchangeRt" class="text-[12px] font-semibold py-2">Exchange Rate</label></p>
+                    <div class="h-[50%] w-full">
+                        <input type="text" name="exchangeRt" id="exchangeRt" class="h-full border-slate-500 border-2 rounded-md px-3 bg-transparent text-[14px] w-full" placeholder="Exchange Rate" />
+                    </div>
+                    <p class="text-[10px]">Exchange Rate</p>
                 </div>
                 <div class="col-span-4">
                     <div class="flex justify-between items-center mb-2">
@@ -49,44 +119,68 @@
                             </span>
                         </button>
                     </div>
-                    <table class="w-full text-sm rounded-md">
-                        <thead class="rounded-md">
-                            <tr class="bg-emerald-500">
-                                <th class="p-2 rounded-l-md">Item Name</th>
-                                <th class="p-2">Qty</th>
-                                <th class="p-2">Price</th>
-                                <th class="p-2">% Tax Rate</th>
-                                <th class="p-2">Exclusive Amount</th>
-                                <th class="p-2">Inclusive Amount</th>
-                                <th class="p-2 text-center rounded-r-md">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="itemTable">
-                            <tr >
-                                <td class="h-[40px] p-1 rounded-l-md">
-                                    <input type="text" name="itemName[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Item Name" />
-                                </td>
-                                <td class="h-[40px] p-1">
-                                    <input type="number" name="qty[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Qty" />
-                                </td>
-                                <td class="h-[40px] p-1">
-                                    <input type="number" name="price[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Price" />
-                                </td>
-                                <td class="h-[40px] p-1">
-                                    <input type="number" name="rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" />
-                                </td>
-                                <td class="h-[40px] p-1">
-                                    <input type="number" name="amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
-                                </td>
-                                <td class="h-[40px] p-1">
-                                    <input type="number" name="inclusive_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
-                                </td>
-                                <td class="h-[40px] p-1 text-center">
-                                    <button type="button" class="removeRow text-red-600 hover:underline text-xs">Remove</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="w-full overflow-x-auto py-3">
+                        <table class="w-full text-sm rounded-md">
+                            <thead class="rounded-md">
+                                <tr class="bg-emerald-500">
+                                    <th class="p-2 min-w-[250px] rounded-l-md">Item Name</th>
+                                    <th class="p-2 min-w-[250px]">Qty</th>
+                                    <th class="p-2 min-w-[250px]">Price</th>
+                                    <th class="p-2 min-w-[250px]">Tax Type's</th>
+                                    <th class="p-2 min-w-[250px]">% Tax Rate</th>
+                                    <th class="p-2  min-w-[250px]">Tax Amount</th>
+                                    <th class="p-2 min-w-[250px]">% Discount Rate</th>
+                                    <th class="p-2 min-w-[250px]">Discount Amount</th>
+                                    <th class="p-2 min-w-[250px]">Exclusive Amount</th>
+                                    <th class="p-2 min-w-[250px]">Inclusive Amount</th>
+                                    <th class="p-2 min-w-[80px] text-center rounded-r-md">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="itemTable">
+                                <tr >
+                                    <td class="h-[40px] p-1 rounded-l-md">
+                                        <select class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" name="itemName[]">
+                                            {% if items %}
+                                                {% for item in items %}
+                                                    <option value="{{ item.id }}">{{ item.itemNm }}</option>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </select>
+                                    </td>
+                                    <td class="h-[40px] p-1">
+                                        <input type="number" name="qty[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Qty" />
+                                    </td>
+                                    <td class="h-[40px] p-1">
+                                        <input type="number" name="price[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Price" />
+                                    </td>
+                                    <td class="h-[40px] p-1">
+                                        <input type="text" name="tax_types[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Separated by Commas" />
+                                    </td>
+                                    <td class="h-[40px] p-1">
+                                        <input type="number" name="rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" />
+                                    </td>
+                                    <td class="h-[40px] p-1">
+                                        <input type="number" name="tax_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" readonly />
+                                    </td>
+                                    <td class="h-[40px] p-1">
+                                        <input type="number" name="discount_rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" />
+                                    </td>
+                                    <td class="h-[40px] p-1">
+                                        <input type="number" name="discount_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
+                                    </td>
+                                    <td class="h-[40px] p-1">
+                                        <input type="number" name="amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
+                                    </td>
+                                    <td class="h-[40px] p-1">
+                                        <input type="number" name="inclusive_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
+                                    </td>
+                                    <td class="h-[40px] p-1 text-center">
+                                        <button type="button" class="removeRow text-red-600 hover:underline text-xs">Remove</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -99,22 +193,38 @@
             const qtyInput = row.querySelector('input[name="qty[]"]');
             const priceInput = row.querySelector('input[name="price[]"]');
             const rateInput = row.querySelector('input[name="rate[]"]');
+            const taxAmountInput = row.querySelector('input[name="tax_amount[]"]');
             const amountInput = row.querySelector('input[name="amount[]"]');
+            const rateDiscountInput = row.querySelector('input[name="discount_rate[]"]');
+            const amountDiscountInput = row.querySelector('input[name="discount_amount[]"]');
             const inclusiveAmountInput = row.querySelector('input[name="inclusive_amount[]"]');
 
             const qty = parseFloat(qtyInput.value) || 0;
             const price = parseFloat(priceInput.value) || 0;
-            const rate = parseFloat(rateInput.value) || 0;
+            const taxRate = parseFloat(rateInput.value) || 0;
+            const discountRate = parseFloat(rateDiscountInput.value) || 0;
 
-            const baseAmount = qty * price;
-            const finalAmount = baseAmount + (baseAmount * rate / 100);
+            const baseSubtotal = qty * price;
 
-            amountInput.value = baseAmount.toFixed(2);
-            inclusiveAmountInput.value = finalAmount.toFixed(2);
+            const discountAmount = (baseSubtotal * discountRate) / 100;
+            amountDiscountInput.value = discountAmount.toFixed(2);
+
+            const discountedSubtotal = baseSubtotal - discountAmount;
+
+            const taxAmount = (discountedSubtotal * taxRate) / 100;
+            taxAmountInput.value = taxAmount.toFixed(2);
+
+            amountInput.value = discountedSubtotal.toFixed(2);
+
+            const inclusiveAmount = discountedSubtotal + taxAmount;
+            inclusiveAmountInput.value = inclusiveAmount.toFixed(2);
         }
 
+
         function addInputListeners(row) {
-            const inputs = row.querySelectorAll('input[name="qty[]"], input[name="price[]"], input[name="rate[]"]');
+            const inputs = row.querySelectorAll(
+                'input[name="qty[]"], input[name="price[]"], input[name="rate[]"], input[name="discount_rate[]"]'
+            );
             inputs.forEach(input => {
                 input.addEventListener('input', () => calculateAmount(row));
             });
@@ -126,7 +236,14 @@
             const newRow = document.createElement('tr');
             newRow.innerHTML = `
                 <td class="h-[40px] p-1 rounded-l-md">
-                    <input type="text" name="itemName[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Item Name" />
+                    <select class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" name="itemName[]">
+                        <option>Select Item</option>
+                        {% if items %}
+                            {% for item in items %}
+                                <option value="{{ item.id }}">{{ item.itemNm }}</option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
                 </td>
                 <td class="h-[40px] p-1">
                     <input type="number" name="qty[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Qty" />
@@ -135,7 +252,19 @@
                     <input type="number" name="price[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Price" />
                 </td>
                 <td class="h-[40px] p-1">
+                    <input type="text" name="tax_types[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Separated by Commas" />
+                </td>
+                <td class="h-[40px] p-1">
                     <input type="number" name="rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" />
+                </td>
+                <td class="h-[40px] p-1">
+                    <input type="text" name="tax_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" readonly />
+                </td>
+                <td class="h-[40px] p-1">
+                    <input type="number" name="discount_rate[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="%" />
+                </td>
+                <td class="h-[40px] p-1">
+                    <input type="number" name="discount_amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />
                 </td>
                 <td class="h-[40px] p-1">
                     <input type="number" name="amount[]" class="w-full bg-transparent border border-slate-300 rounded px-2 py-1" placeholder="Amount" readonly />

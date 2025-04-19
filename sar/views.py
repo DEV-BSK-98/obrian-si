@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import SAR, SAR_Item
+from django.contrib.auth.decorators import login_required
+
+@login_required
 def index (request):
     if request.method == 'POST':
         try:
@@ -12,6 +15,7 @@ def index (request):
             print(f"Error saving data: {str(e)}")
     return render (request, "sar/index.html")
 
+@login_required
 def info (request, id):
     sars = SAR.objects.filter (id=id).first ()
     if not sars:
